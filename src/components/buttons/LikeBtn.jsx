@@ -2,7 +2,7 @@ import React from "react";
 import { HeartIcon } from "./HeartIcon";
 
 
-export const HeartBtn = ({ ...props }) => {
+export const LikeBtn = ({ ...props }) => {
   return (
     <button {...props}>
       <HeartIcon />

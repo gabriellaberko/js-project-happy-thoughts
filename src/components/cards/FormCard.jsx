@@ -1,23 +1,23 @@
 import React, { useState } from "react";
-import { FormSubmitBtn } from "../buttons/FormSubmitBtn";
+import { SubmitBtn } from "../buttons/SubmitBtn";
+import { StyledFormCard, StyledInput } from "./Card.styled";
 
 export const FormCard = ({ children, ...props }) => {
 
   const [message, setMessage] = useState("");
 
   return (
-    <form onSubmit = {(e) => e.preventDefault()}>
-      <label> What is making you happy right now?
-        <input 
+    <StyledFormCard onSubmit = {(e) => e.preventDefault()}>
+      <h2>What is making you happy right now?</h2> 
+        <StyledInput 
           type="text" 
           placeholder="Share a happy thought..." 
           value = {message}
           onChange = {(e) => setMessage(e.target.value)}
         />
-      </label>
-      <FormSubmitBtn>
+      <SubmitBtn>
         Send Happy Thought
-      </FormSubmitBtn>
-    </form>
+      </SubmitBtn>
+    </StyledFormCard>
   );
 }
