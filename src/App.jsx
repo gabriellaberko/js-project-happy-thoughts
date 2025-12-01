@@ -1,5 +1,16 @@
+import React from 'react';
+import { ThemeProvider } from 'styled-components';
+import { theme } from './components/styles/theme.styled';
+import { GlobalStyle } from './components/styles/GlobalStyles';
+
+
 export const App = () => {
   return (
-    <h1>Happy Thoughts</h1>
+    <>
+      <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <h1>Happy Thoughts</h1>
+      </ThemeProvider>
+    </>
   )
 }
