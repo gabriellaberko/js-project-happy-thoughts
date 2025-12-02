@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SubmitBtn } from "../buttons/SubmitBtn";
 import { StyledFormCard, StyledInput } from "./Card.styled";
+import styled from "styled-components";
 
 
 export const FormCard = ({ addMessage, ...props }) => {
@@ -19,6 +20,7 @@ export const FormCard = ({ addMessage, ...props }) => {
 
   return (
     <StyledFormCard as="form" onSubmit = {handleSubmit}>
+      <StyledWrapper>
       <h2>What is making you happy right now?</h2> 
         <StyledInput 
           type="text" 
@@ -26,9 +28,16 @@ export const FormCard = ({ addMessage, ...props }) => {
           value = {message}
           onChange = {handleInputChange}
         />
+      </StyledWrapper>
       <SubmitBtn>
         Send Happy Thought
       </SubmitBtn>
     </StyledFormCard>
   );
 }
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;

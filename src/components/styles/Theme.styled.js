@@ -41,5 +41,9 @@ export const theme = {
         activeBg: "#F7A8A6"
       }
     }
+  },
+  media: {
+    tablet: "(min-width: 769px)",
+    desktop: "(min-width: 1024px)"
   }
 }

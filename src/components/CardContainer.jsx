@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FormCard } from "./cards/FormCard";
 import { MessageCard } from "./cards/MessageCard";
+import styled from "styled-components";
 
 
 export const CardContainer = () => {
@@ -12,10 +13,19 @@ export const CardContainer = () => {
   }
   
   return(
-    <div>
+    <StyledCardContainer>
       <h1>Happy Thoughts</h1>
       <FormCard addMessage={addMessage} />
       {messages.map((message, index) => (<MessageCard key={index}>{message}</MessageCard>))}
-    </div>
+    </StyledCardContainer>
   );
 }
+
+
+const StyledCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+`;
