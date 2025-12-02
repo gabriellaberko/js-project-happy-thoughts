@@ -3,14 +3,16 @@ import { SubmitBtn } from "../buttons/SubmitBtn";
 import { StyledFormCard, StyledInput } from "./Card.styled";
 
 
-export const FormCard = ({ children, ...props }) => {
+export const FormCard = ({ addMessage, ...props }) => {
 
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setMessage("");
+    addMessage(message); // to pass up the message to parent (CardContainer)
+    setMessage(""); //reset on submit
   }
+
   const handleInputChange = (e) => {
     setMessage(e.target.value);
   }
