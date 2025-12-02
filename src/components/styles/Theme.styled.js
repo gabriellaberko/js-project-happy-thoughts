@@ -35,7 +35,9 @@ export const theme = {
         activebg: "#E48C89"
       },
       like: {
-        bg: "#F0F0F0",  // maybe #F2F2F2"
+        bg: "#F0F0F0",
+        hoverBg: "#F9B8B5",
+        hoverShadow: "rgba(0, 0, 0, 0.18)",
         activeBg: "#F7A8A6"
       }
     }

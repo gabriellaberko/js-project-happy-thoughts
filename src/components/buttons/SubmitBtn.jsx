@@ -1,13 +1,17 @@
 import React from "react";
 import { HeartIcon } from "./HeartIcon";
-import { StyledSubmitBtn } from "./Button.styled";
+import { StyledBtn } from "./Button.styled";
 
 export const SubmitBtn = ({ children, ...props }) => {
   return (
-    <StyledSubmitBtn type ="submit" {...props}>
+    <StyledBtn 
+      variant="submit" 
+      type ="submit" 
+      {...props}
+    >
       <HeartIcon />
-      {children}
+        {children}
       <HeartIcon />
-    </StyledSubmitBtn>
+    </StyledBtn>
   );
 }
