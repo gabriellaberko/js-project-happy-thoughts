@@ -9,6 +9,20 @@ const shake = keyframes`
   100% { transform: translateX(0); }
 `;
 
+const popIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
 
 /* --- Styled card components --- */
 
@@ -23,9 +37,10 @@ export const StyledCard = styled.div`
   padding: 24px;
   box-shadow: 8px 8px 0px ${(props) => props.theme.colors.card.shadow};
   width: 100%;
+  animation: ${popIn} 0.4s ease;
   
   &:hover {
-    transform: translateX(-4px);
+    transform: translateX(3px);
   }
 
   @media ${(props) => props.theme.media.tablet}  {
@@ -38,6 +53,7 @@ export const StyledCard = styled.div`
 
 export const StyledFormCard = styled(StyledCard)`
   background-color: ${(props) => props.theme.colors.formCard.bg};
+  animation: none;
   &:hover {
     transform: none;
   }
