@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SubmitBtn } from "../buttons/SubmitBtn";
 import { StyledFormCard, StyledInput } from "./Card.styled";
+import { WordCount } from "./WordCount";
 import styled from "styled-components";
 
 
@@ -28,6 +29,7 @@ export const FormCard = ({ addMessage, ...props }) => {
           value = {message}
           onChange = {handleInputChange}
         />
+        <WordCount message={message} />
       </StyledWrapper>
       <SubmitBtn>
         Send Happy Thought
