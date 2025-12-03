@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import { SubmitBtn } from "../buttons/SubmitBtn";
-import { StyledFormCard, StyledInput } from "./Card.styled";
+import { StyledFormCard, StyledInput, StyledWrapper, StyledErrorMessage } from "./Card.styled";
 import { WordCount } from "./WordCount";
-import styled from "styled-components";
 
 
 export const FormCard = ({ addMessage, ...props }) => {
 
   const [message, setMessage] = useState("");
+  const [error, setError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addMessage(message); // to pass up the message to parent (CardContainer)
+    
+    if (checkIfWithinWordLimit()) {
+      setError(false);
+      addMessage(message); //pass the message to the function in CardContainer
+    } else {
+      setError(true);
+    }
+
     setMessage(""); //reset on submit
   }
 
@@ -19,17 +26,29 @@ export const FormCard = ({ addMessage, ...props }) => {
     setMessage(e.target.value);
   }
 
+  const checkIfWithinWordLimit = () => {
+    const isInWordLimit = message.length >= 1 && message.length <= 140 
+      ? true 
+      : false;
+    return isInWordLimit;
+  }
+
+
   return (
-    <StyledFormCard as="form" onSubmit = {handleSubmit}>
+    <StyledFormCard as="form" onSubmit ={handleSubmit}>
       <StyledWrapper>
       <h2>What is making you happy right now?</h2> 
         <StyledInput 
           type="text" 
           placeholder="Share a happy thought..." 
-          value = {message}
-          onChange = {handleInputChange}
+          value={message}
+          onChange={handleInputChange}
         />
         <WordCount message={message} />
+        {error && 
+          <StyledErrorMessage>
+            <p><strong>⚠️ Error:</strong> The message must be between 1 and 140 characters.</p></StyledErrorMessage>
+        }
       </StyledWrapper>
       <SubmitBtn>
         Send Happy Thought
@@ -37,9 +56,3 @@ export const FormCard = ({ addMessage, ...props }) => {
     </StyledFormCard>
   );
 }
-
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
