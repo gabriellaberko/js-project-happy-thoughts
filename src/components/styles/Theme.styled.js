@@ -1,6 +1,6 @@
 export const theme = {
   font: {
-    font: "sans-serif",
+    font: "Inter",
     sizes: {
       small: "14px",
       medium: "16px",
