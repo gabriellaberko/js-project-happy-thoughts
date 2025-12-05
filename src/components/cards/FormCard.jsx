@@ -12,26 +12,21 @@ export const FormCard = ({ addMessage, ...props }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (checkIfWithinWordLimit()) {
+    if(checkIfWithinWordLimit()) {
       setError(false);
       addMessage(message); //pass the message to the function in CardContainer
     } else {
       setError(true);
     }
-
+    
     setMessage(""); //reset on submit
   }
 
-  const handleInputChange = (e) => {
-    setMessage(e.target.value);
-  }
 
-  const checkIfWithinWordLimit = () => {
-    const isInWordLimit = message.length >= 1 && message.length <= 140 
-      ? true 
-      : false;
-    return isInWordLimit;
-  }
+  const handleInputChange = (e) => setMessage(e.target.value);
+
+
+  const checkIfWithinWordLimit = () => message.length >= 1 && message.length <= 140;
 
 
   return (

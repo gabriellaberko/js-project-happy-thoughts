@@ -9,18 +9,24 @@ export const CardContainer = () => {
   const [messages, setMessages] = useState([]);
 
   const addMessage = (message) => {  
-    setMessages([...messages, message]);
+    setMessages([...messages, { message: message, submitTime: new Date() }]);
   }
   
   return(
     <StyledCardContainer>
       <h1>Happy Thoughts</h1>
       <FormCard addMessage={addMessage} />
-      {messages.map((message, index) => (<MessageCard key={index}>{message}</MessageCard>))}
+      {messages.map((message, index) => 
+        (<MessageCard 
+          key={index} 
+          submitTime={message.submitTime}
+          >
+            {message.message}
+        </MessageCard>
+       ))}
     </StyledCardContainer>
   );
 }
-
 
 const StyledCardContainer = styled.div`
   display: flex;
