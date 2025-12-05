@@ -10,5 +10,11 @@ export const GlobalStyle = createGlobalStyle`
     margin: 24px;
   }
 
+  h2 {
+    font-size: medium;
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+
 
 `;

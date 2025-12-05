@@ -7,7 +7,7 @@ export const WordCount = ({ message }) => {
   const wordCount = message.length;
   
   return (
-    <StyledParagraph $wordCount={wordCount}>{140 - wordCount} characters remaining</StyledParagraph>
+    <StyledParagraph $wordCount={wordCount}>{wordCount} / 140 characters</StyledParagraph>
   );
 }
 

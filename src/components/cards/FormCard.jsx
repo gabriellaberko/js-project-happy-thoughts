@@ -15,11 +15,10 @@ export const FormCard = ({ addMessage, ...props }) => {
     if(checkIfWithinWordLimit()) {
       setError(false);
       addMessage(message); //pass the message to the function in CardContainer
+      setMessage(""); //reset on submit
     } else {
       setError(true);
     }
-    
-    setMessage(""); //reset on submit
   }
 
 
@@ -32,7 +31,7 @@ export const FormCard = ({ addMessage, ...props }) => {
   return (
     <StyledFormCard as="form" onSubmit ={handleSubmit}>
       <StyledWrapper>
-      <h2>What is making you happy right now?</h2> 
+      <h2>What's making you happy right now?</h2> 
         <StyledInput 
           type="text" 
           placeholder="Share a happy thought..." 

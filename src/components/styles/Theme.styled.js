@@ -1,12 +1,6 @@
 export const theme = {
   font: {
-    font: "Inter",
-    sizes: {
-      small: "14px",
-      medium: "16px",
-      large: "18px",
-      xlarge: "22px"
-    }
+    font: "Inter"
   },
   colors: {
     main: {
