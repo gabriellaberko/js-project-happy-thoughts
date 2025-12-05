@@ -5,7 +5,7 @@ export const StyledBtn = styled.button`
   align-items: center;
   background-color: ${(props) => props.theme.colors.button[props.variant]?.bg};
   border: none;
-  padding: ${((props) => props.variant === "like" ? "12px" : "8px 16px")};
+  padding: ${((props) => props.variant === "like" ? "12px 16px" : "8px 16px")};
   border-radius: ${((props) => props.variant === "like" ? "50%" : "30px")};
 
   &:hover {
