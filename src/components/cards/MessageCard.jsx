@@ -3,7 +3,7 @@ import { StyledCard } from "./Card.styled";
 import { LikeBtn } from "../buttons/LikeBtn";
 import styled from "styled-components";
 
-export const MessageCard = ({ submitTime, children, ...props }) => {
+export const MessageCard = ({ createdAt, children, ...props }) => {
 
   const [timeAgo, setTimeAgo] = useState("");
   const [likeCount, setLikeCount] = useState(0);
@@ -14,9 +14,9 @@ export const MessageCard = ({ submitTime, children, ...props }) => {
     setIsActive(true);
   }
 
-  const checkTimeAgoSubmitted = (submitTime) => {
+  const checkTimeAgoSubmitted = (createdAt) => {
     const timeNow = new Date();
-    const diffInSeconds = Math.floor((timeNow - submitTime) / 1000);
+    const diffInSeconds = Math.floor((timeNow - createdAt) / 1000);
     const diffInMinutes = Math.floor(diffInSeconds / 60);
     const diffInHours = Math.floor(diffInMinutes / 60);
     const diffInDays = Math.floor(diffInHours / 24);
@@ -36,12 +36,12 @@ export const MessageCard = ({ submitTime, children, ...props }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeAgo(checkTimeAgoSubmitted(submitTime));
+      setTimeAgo(checkTimeAgoSubmitted(createdAt));
     }, 60000);
   
     //prevent interval form keep running & clear from old value
     return () => clearInterval(interval);
-  }, [submitTime]);
+  }, [createdAt]);
 
   
 
@@ -53,7 +53,7 @@ export const MessageCard = ({ submitTime, children, ...props }) => {
           <LikeBtn onClick={handleClick} active={isActive} />
           <p>x {likeCount}</p>
         </StyledLikeWrapper>
-        <p>{checkTimeAgoSubmitted(submitTime)}</p>
+        <p>{checkTimeAgoSubmitted(createdAt)}</p>
       </StyledBottomWrapper>
     </StyledCard>
   );
