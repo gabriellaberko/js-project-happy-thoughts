@@ -1,6 +1,6 @@
 export const theme = {
   font: {
-    font: "Inter"
+    font: "Courier New"
   },
   colors: {
     main: {

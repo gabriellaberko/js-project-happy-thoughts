@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   h2 {
-    font-size: medium;
+    font-size: 18px;
     font-weight: 400;
     margin-bottom: 24px;
   }
