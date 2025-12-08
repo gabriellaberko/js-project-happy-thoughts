@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyledCard } from "./Card.styled";
 import { LikeBtn } from "../buttons/LikeBtn";
 import styled from "styled-components";
+import moment from "moment";
 
 export const MessageCard = ({ createdAt, children, ...props }) => {
 
@@ -14,24 +15,7 @@ export const MessageCard = ({ createdAt, children, ...props }) => {
     setIsActive(true);
   }
 
-  const checkTimeAgoSubmitted = (createdAt) => {
-    const timeNow = new Date();
-    const diffInSeconds = Math.floor((timeNow - createdAt) / 1000);
-    const diffInMinutes = Math.floor(diffInSeconds / 60);
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    const diffInDays = Math.floor(diffInHours / 24);
-
-    // return the right time format (minutes/hours/days)  
-    if (diffInMinutes < 1) {
-      return `0 minutes ago`;
-    } else if (diffInMinutes < 60) {
-      return `${diffInMinutes} minutes ago`;
-    } else if (diffInHours < 24) {
-      return `${diffInHours} hours ago`;
-    } else {
-      return `${diffInDays} days ago`;
-    }
-  };
+  const checkTimeAgoSubmitted = createdAt =>  moment(createdAt).fromNow();
 
 
   useEffect(() => {

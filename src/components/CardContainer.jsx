@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FormCard } from "./cards/FormCard";
 import { MessageCard } from "./cards/MessageCard";
 import styled from "styled-components";
+import moment from "moment";
 
 
 export const CardContainer = () => {
@@ -9,14 +10,14 @@ export const CardContainer = () => {
   const [messages, setMessages] = useState([]);
 
   const addMessage = (message) => {  
-    setMessages([...messages, { message: message, createdAt: new Date() }]);
+    setMessages([...messages, { message: message, createdAt: moment().utc().format() }]); 
   }
 
   useEffect(() => {
 
     const fetchMessages = async () => {
 
-      const url = `https://happy-thoughts-api-5hw3.onrender.com/thoughts`;
+      const url = `https://happy-thoughts-api-4ful.onrender.com/thoughts`;
     
       try {
     
@@ -27,9 +28,8 @@ export const CardContainer = () => {
         }
     
         const data = await response.json();
-        const fetchedThoughts = data.thoughts;
-        console.log(fetchedThoughts);
-        setMessages(fetchedThoughts);;
+        console.log(data);
+        setMessages(data);;
       }
     
       catch (error) {
