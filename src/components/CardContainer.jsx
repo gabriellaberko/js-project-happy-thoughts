@@ -16,7 +16,10 @@ export const CardContainer = () => {
     <StyledCardContainer>
       <h1>Happy Thoughts</h1>
       <FormCard addMessage={addMessage} />
-      {messages.map((message, index) => 
+      {messages
+        .slice() //copy array to not mutate original array
+        .sort((a, b) => b.submitTime - a.submitTime)
+        .map((message, index) => 
         (<MessageCard 
           key={index} 
           submitTime={message.submitTime}
