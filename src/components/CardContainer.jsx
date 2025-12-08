@@ -23,6 +23,7 @@ export const CardContainer = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
+        console.log(data)
         setMessages(data);;
       }   
       catch (error) {
@@ -44,6 +45,9 @@ export const CardContainer = () => {
         (<MessageCard 
           key={index} 
           createdAt={message.createdAt}
+          id={message._id}
+          hearts={message.hearts}
+          setUpdateMessages={setUpdateMessages}
           >
             {message.message}
         </MessageCard>

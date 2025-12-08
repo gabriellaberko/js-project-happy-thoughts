@@ -4,15 +4,16 @@ import { LikeBtn } from "../buttons/LikeBtn";
 import styled from "styled-components";
 import moment from "moment";
 
-export const MessageCard = ({ createdAt, children, ...props }) => {
+export const MessageCard = ({ setUpdateMessages, id, hearts, createdAt, children, ...props }) => {
 
   const [timeAgo, setTimeAgo] = useState("");
-  const [likeCount, setLikeCount] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [likeCount, setLikeCount] = useState(hearts);
+  const [isActive, setIsActive] = useState(hearts>=1 ? true : false);
 
   const handleClick = () => {
     setLikeCount(prev => prev +1);
     setIsActive(true);
+    postLike(id)
   }
 
   const checkTimeAgoSubmitted = createdAt =>  moment(createdAt).fromNow();
@@ -27,7 +28,28 @@ export const MessageCard = ({ createdAt, children, ...props }) => {
     return () => clearInterval(interval);
   }, [createdAt]);
 
-  
+   /*--- POST like to API ---*/
+
+   const postLike = async (id) => {
+    const url = `https://happy-thoughts-api-4ful.onrender.com/thoughts/${id}/like`;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", //tell server it’s JSON
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Server response:", data);
+      setUpdateMessages(true); // to trigger a re-fetch of data after sending a like to the API
+    }
+    catch(error) {
+      console.error("Sending error:", error);
+    }
+  };
 
   return (
     <StyledCard>
