@@ -10,6 +10,12 @@ export const MessageCard = ({ setUpdateMessages, id, hearts, createdAt, children
   const [likeCount, setLikeCount] = useState(hearts);
   const [isActive, setIsActive] = useState(hearts>=1 ? true : false);
 
+  //sync with hearts prop when it changes (when new card is posted)
+  useEffect(() => {
+    setLikeCount(hearts);
+    setIsActive(hearts >= 1);
+  }, [hearts]);
+
   const handleClick = () => {
     setLikeCount(prev => prev +1);
     setIsActive(true);
@@ -44,7 +50,7 @@ export const MessageCard = ({ setUpdateMessages, id, hearts, createdAt, children
       }
       const data = await response.json();
       console.log("Server response:", data);
-      setUpdateMessages(true); // to trigger a re-fetch of data after sending a like to the API
+      setUpdateMessages(prev => prev + 1); // to trigger a re-fetch of data after sending a like to the API
     }
     catch(error) {
       console.error("Sending error:", error);

@@ -15,6 +15,7 @@ export const FormCard = ({ setUpdateMessages, ...props }) => {
     if(checkIfWithinWordLimit()) {
       setError(false);
       postMessage(message);
+      
       setMessage(""); //reset on submit
     } else {
       setError(true);
@@ -49,7 +50,7 @@ export const FormCard = ({ setUpdateMessages, ...props }) => {
 
       const data = await response.json();
       console.log("Server response:", data);
-      setUpdateMessages(true); // to trigger a re-fetch of data after sending the message
+      setUpdateMessages(prev => prev + 1); // to trigger a re-fetch of data after sending the message
     }
     catch(error) {
       console.error("Sending error:", error);

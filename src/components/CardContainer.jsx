@@ -8,7 +8,7 @@ import moment from "moment";
 export const CardContainer = () => {
 
   const [messages, setMessages] = useState([]);
-  const [updateMessages, setUpdateMessages] = useState(false);
+  const [updateMessages, setUpdateMessages] = useState(0);
 
 
   /*--- Fetch messages from API ---*/
@@ -23,7 +23,6 @@ export const CardContainer = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data)
         setMessages(data);;
       }   
       catch (error) {
