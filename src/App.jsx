@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { theme } from './components/styles/theme.styled';
+import { theme } from './components/styles/Theme.styled';
 import { GlobalStyle } from './components/styles/GlobalStyles';
 import { CardContainer } from './components/CardContainer';
 
