@@ -4,7 +4,7 @@ import { StyledFormCard, StyledInput, StyledWrapper, StyledErrorMessage } from "
 import { WordCount } from "./WordCount";
 
 
-export const FormCard = ({ addMessage, ...props }) => {
+export const FormCard = ({ setUpdateMessages, ...props }) => {
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
@@ -14,7 +14,7 @@ export const FormCard = ({ addMessage, ...props }) => {
     
     if(checkIfWithinWordLimit()) {
       setError(false);
-      addMessage(message); //pass the message to the function in CardContainer
+      postMessage(message);
       setMessage(""); //reset on submit
     } else {
       setError(true);
@@ -26,6 +26,35 @@ export const FormCard = ({ addMessage, ...props }) => {
 
 
   const checkIfWithinWordLimit = () => message.length >= 1 && message.length <= 140;
+
+
+  /*--- POST message to API ---*/
+
+  const postMessage = async (message) => {
+    const url = `https://happy-thoughts-api-4ful.onrender.com/thoughts`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", //tell server it’s JSON
+        },
+        body: JSON.stringify({ message: message }) //convert JS object to JSON string
+      });
+
+    
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Server response:", data);
+      setUpdateMessages(true); // to trigger a re-fetch of data after sending the message
+    }
+    catch(error) {
+      console.error("Sending error:", error);
+    }
+  };
 
 
   return (

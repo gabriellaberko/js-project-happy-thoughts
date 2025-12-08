@@ -8,45 +8,37 @@ import moment from "moment";
 export const CardContainer = () => {
 
   const [messages, setMessages] = useState([]);
+  const [updateMessages, setUpdateMessages] = useState(false);
 
-  const addMessage = (message) => {  
-    setMessages([...messages, { message: message, createdAt: moment().utc().format() }]); 
-  }
+
+  /*--- Fetch messages from API ---*/
 
   useEffect(() => {
 
     const fetchMessages = async () => {
-
       const url = `https://happy-thoughts-api-4ful.onrender.com/thoughts`;
-    
       try {
-    
         const response = await fetch(url);
-    
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-    
         const data = await response.json();
-        console.log(data);
         setMessages(data);;
-      }
-    
+      }   
       catch (error) {
         console.error("Fetch error:", error);
       }
     };
-
     fetchMessages();
-  },[])
+  },[updateMessages])
 
   
   return(
     <StyledCardContainer>
       <h1>Happy Thoughts</h1>
-      <FormCard addMessage={addMessage} />
+      <FormCard setUpdateMessages={setUpdateMessages} />
       {messages
-        .slice() //copy array to not mutate original array
+        .slice() //copy array to not mutate the original for sorting
         .sort((a, b) => b.createdAt - a.createdAt)
         .map((message, index) => 
         (<MessageCard 
