@@ -7,9 +7,11 @@ export const MessageCard = ({ submitTime, children, ...props }) => {
 
   const [timeAgo, setTimeAgo] = useState("");
   const [likeCount, setLikeCount] = useState(0);
+  const [isActive, setIsActive] = useState(false);
 
-  const incrementLikes = () => {
+  const handleClick = () => {
     setLikeCount(prev => prev +1);
+    setIsActive(true);
   }
 
   const checkTimeAgoSubmitted = (submitTime) => {
@@ -48,7 +50,7 @@ export const MessageCard = ({ submitTime, children, ...props }) => {
       {children}
       <StyledBottomWrapper>
         <StyledLikeWrapper>
-          <LikeBtn onClick={incrementLikes}/>
+          <LikeBtn onClick={handleClick} active={isActive} />
           <p>x {likeCount}</p>
         </StyledLikeWrapper>
         <p>{checkTimeAgoSubmitted(submitTime)}</p>

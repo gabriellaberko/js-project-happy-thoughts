@@ -40,7 +40,7 @@ export const StyledCard = styled.div`
   animation: ${popIn} 0.4s ease;
   
   &:hover {
-    transform: translateX(3px);
+    transform: scale(1.01);
   }
 
   @media ${(props) => props.theme.media.tablet}  {

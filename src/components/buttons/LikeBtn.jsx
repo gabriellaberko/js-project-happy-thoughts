@@ -4,6 +4,7 @@ import { StyledBtn } from "./Button.styled";
 
 
 export const LikeBtn = ({ ...props }) => {
+
   return (
     <StyledBtn 
       variant = "like"

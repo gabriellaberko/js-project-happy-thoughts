@@ -3,10 +3,13 @@ import styled from "styled-components";
 export const StyledBtn = styled.button`
   display: flex;
   align-items: center;
-  background-color: ${(props) => props.theme.colors.button[props.variant]?.bg};
   border: none;
   padding: ${((props) => props.variant === "like" ? "12px 16px" : "8px 16px")};
   border-radius: ${((props) => props.variant === "like" ? "50%" : "30px")};
+  background-color: ${props => (props.active 
+    ? props => props.theme.colors.button[props.variant]?.activeBg
+    : props => props.theme.colors.button[props.variant]?.bg
+  )};
 
   &:hover {
     background-color: ${(props) => props.theme.colors.button[props.variant]?.hoverBg};
@@ -15,7 +18,6 @@ export const StyledBtn = styled.button`
   }
 
   &:active {
-    background-color: ${(props) => props.theme.colors.button[props.variant]?.activeBg};
     transform: translateY(1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
   }
