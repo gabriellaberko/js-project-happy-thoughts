@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { FormCard } from "./cards/FormCard";
 import { MessageCard } from "./cards/MessageCard";
 import styled from "styled-components";
-import moment from "moment";
+import { Loader } from "./Loader";
 
 
 export const CardContainer = () => {
 
   const [messages, setMessages] = useState([]);
-  const [updateMessages, setUpdateMessages] = useState(0);
+  const [updateMessages, setUpdateMessages] = useState(0); //for re-fetching data
+  const [loading, setLoading] = useState(true);
 
 
   /*--- Fetch messages from API ---*/
@@ -23,7 +24,8 @@ export const CardContainer = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        setMessages(data);;
+        setLoading(false);
+        setMessages(data);
       }   
       catch (error) {
         console.error("Fetch error:", error);
@@ -37,6 +39,7 @@ export const CardContainer = () => {
     <StyledCardContainer>
       <h1>Happy Thoughts</h1>
       <FormCard setUpdateMessages={setUpdateMessages} />
+      {loading && <Loader />}
       {messages
         .slice() //copy array to not mutate the original for sorting
         .sort((a, b) => b.createdAt - a.createdAt)
