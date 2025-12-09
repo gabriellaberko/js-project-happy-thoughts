@@ -67,6 +67,7 @@ export const CardContainer = () => {
           id={message._id}
           hearts={message.hearts}
           setUpdateMessages={setUpdateMessages}
+          likedThoughts={likedThoughts}
           setLikedThoughts={setLikedThoughts}
           >
             {message.message}

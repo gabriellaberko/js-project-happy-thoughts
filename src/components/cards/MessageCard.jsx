@@ -4,7 +4,7 @@ import { LikeBtn } from "../buttons/LikeBtn";
 import styled from "styled-components";
 import moment from "moment";
 
-export const MessageCard = ({ setLikedThoughts, setUpdateMessages, id, hearts, createdAt, children, ...props }) => {
+export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages, id, hearts, createdAt, children, ...props }) => {
 
   const [timeAgo, setTimeAgo] = useState("");
   const [likeCount, setLikeCount] = useState(hearts);
@@ -21,7 +21,9 @@ export const MessageCard = ({ setLikedThoughts, setUpdateMessages, id, hearts, c
     setLikeCount(prev => prev +1);
     setIsActive(true);
     postLike(id);
-    setLikedThoughts(prev => [...prev, id]);
+    if (likedThoughts &&!likedThoughts.includes(id)) {
+      setLikedThoughts(prev => [...prev, id]);
+    } 
   };
 
   const checkTimeAgoSubmitted = createdAt =>  moment(createdAt).fromNow();
