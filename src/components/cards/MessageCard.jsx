@@ -66,7 +66,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
       {children}
       <StyledBottomWrapper>
         <StyledLikeWrapper>
-          <LikeBtn onClick={handleClick} active={isActive} />
+          <LikeBtn onClick={handleClick} $active={isActive} />
           <p>x {likeCount}</p>
         </StyledLikeWrapper>
         <p>{checkTimeAgoSubmitted(createdAt)}</p>
