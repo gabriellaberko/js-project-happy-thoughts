@@ -43,12 +43,12 @@ export const StyledCard = styled.div`
     transform: scale(1.01);
   }
 
-  @media ${(props) => props.theme.media.tablet}  {
+  /* @media ${(props) => props.theme.media.tablet}  {
     width: 70%;
   }
   @media ${(props) => props.theme.media.desktop}  {
     width: 50%;
-  }
+  } */
 `;
 
 export const StyledFormCard = styled(StyledCard)`

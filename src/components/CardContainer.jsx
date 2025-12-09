@@ -10,6 +10,14 @@ export const CardContainer = () => {
   const [messages, setMessages] = useState([]);
   const [updateMessages, setUpdateMessages] = useState(0); //for re-fetching data
   const [loading, setLoading] = useState(true);
+  const [likedThoughts, setLikedThoughts] = useState(() => {
+    return JSON.parse(localStorage.getItem("likedThoughts")) || [];
+  });
+
+  //sync the likes to local storage whenever likedThoughts is changing
+  useEffect(() => {
+    localStorage.setItem("likedThoughts", JSON.stringify(likedThoughts));
+  }, [likedThoughts]);
 
 
   /*--- Fetch messages from API ---*/
@@ -36,8 +44,17 @@ export const CardContainer = () => {
 
   
   return(
+    <StyledWrapper>
+            <h1>Happy Thoughts</h1>
+      {likedThoughts.length > 0 && (
+          <StyledText>
+            You've liked {likedThoughts.length}{" "}
+            {likedThoughts.length === 1 ? "post" : "posts"}.
+            <br></br>
+            Keep up the good work of spreading happiness!
+          </StyledText>
+      )}
     <StyledCardContainer>
-      <h1>Happy Thoughts</h1>
       <FormCard setUpdateMessages={setUpdateMessages} />
       {loading && <Loader />}
       {messages
@@ -50,11 +67,13 @@ export const CardContainer = () => {
           id={message._id}
           hearts={message.hearts}
           setUpdateMessages={setUpdateMessages}
+          setLikedThoughts={setLikedThoughts}
           >
             {message.message}
         </MessageCard>
        ))}
     </StyledCardContainer>
+    </StyledWrapper>
   );
 }
 
@@ -64,4 +83,23 @@ const StyledCardContainer = styled.div`
   align-items: center;
   gap: 24px;
   padding: 24px;
+
+  @media ${(props) => props.theme.media.tablet}  {
+    width: 70%;
+  }
+  @media ${(props) => props.theme.media.desktop}  {
+    width: 50%;
+  }
 `;
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StyledText = styled.p`
+  text-align: center;
+  color: ${(props) => props.theme.colors.main.secondaryText}
+`;
+

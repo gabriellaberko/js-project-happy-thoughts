@@ -4,23 +4,25 @@ import { LikeBtn } from "../buttons/LikeBtn";
 import styled from "styled-components";
 import moment from "moment";
 
-export const MessageCard = ({ setUpdateMessages, id, hearts, createdAt, children, ...props }) => {
+export const MessageCard = ({ setLikedThoughts, setUpdateMessages, id, hearts, createdAt, children, ...props }) => {
 
   const [timeAgo, setTimeAgo] = useState("");
   const [likeCount, setLikeCount] = useState(hearts);
   const [isActive, setIsActive] = useState(hearts>=1 ? true : false);
 
-  //sync with hearts prop when it changes (when new card is posted)
+  //sync with the hearts prop when it changes (when new card is posted)
   useEffect(() => {
     setLikeCount(hearts);
     setIsActive(hearts >= 1);
   }, [hearts]);
+  
 
   const handleClick = () => {
     setLikeCount(prev => prev +1);
     setIsActive(true);
-    postLike(id)
-  }
+    postLike(id);
+    setLikedThoughts(prev => [...prev, id]);
+  };
 
   const checkTimeAgoSubmitted = createdAt =>  moment(createdAt).fromNow();
 
