@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { StyledCard } from "./Card.styled";
 import { LikeBtn } from "../buttons/LikeBtn";
 import styled from "styled-components";
-import moment from "moment";
+import dayjs from "dayjs";
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime);
 
 export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages, id, hearts, createdAt, children, ...props }) => {
 
@@ -26,7 +29,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
     } 
   };
 
-  const checkTimeAgoSubmitted = createdAt =>  moment(createdAt).fromNow();
+  const checkTimeAgoSubmitted = createdAt =>  dayjs(createdAt).fromNow();
 
 
   useEffect(() => {
