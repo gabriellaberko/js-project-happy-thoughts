@@ -41,6 +41,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
     return () => clearInterval(interval);
   }, [createdAt]);
 
+  
    /*--- POST like to API ---*/
 
    const postLike = async (id) => {

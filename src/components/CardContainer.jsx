@@ -84,6 +84,7 @@ const StyledCardContainer = styled.div`
   align-items: center;
   gap: 24px;
   padding: 24px;
+  overflow-wrap: anywhere;
 
   @media ${(props) => props.theme.media.tablet}  {
     width: 70%;
