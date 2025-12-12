@@ -35,6 +35,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeAgo(checkTimeAgoSubmitted(createdAt));
+      setUpdateMessages(prev => prev + 1); //trigger re-fetch of data
     }, 60000);
   
     //prevent interval form keep running & clear from old value
