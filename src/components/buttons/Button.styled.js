@@ -4,6 +4,7 @@ export const StyledBtn = styled.button`
   display: flex;
   align-items: center;
   border: none;
+  gap: 4px;
   padding: ${((props) => props.variant === "like" ? "12px 16px" : "8px 16px")};
   border-radius: ${((props) => props.variant === "like" ? "50%" : "30px")};
   background-color: ${props => (props.$active 
