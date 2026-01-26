@@ -7,9 +7,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 
 dayjs.extend(relativeTime);
 
-export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages, id, hearts, createdAt, children, ...props }) => {
+export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages, id, hearts, createdAt, children }) => {
 
-  const [timeAgo, setTimeAgo] = useState("");
   const [likeCount, setLikeCount] = useState(hearts);
   const [isActive, setIsActive] = useState(hearts>=1 ? true : false);
 
@@ -23,37 +22,42 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
   const handleClick = () => {
     setLikeCount(prev => prev +1);
     setIsActive(true);
-    postLike(id);
+    updateLike(id);
     if (likedThoughts &&!likedThoughts.includes(id)) {
       setLikedThoughts(prev => [...prev, id]);
     } 
   };
 
-  const checkTimeAgoSubmitted = createdAt =>  dayjs(createdAt).fromNow();
+  const checkTimeAgoSubmitted = createdAt => dayjs(createdAt).fromNow();
 
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeAgo(checkTimeAgoSubmitted(createdAt));
+      checkTimeAgoSubmitted(createdAt);
       setUpdateMessages(prev => prev + 1); //trigger re-fetch of data
     }, 60000);
   
     //prevent interval form keep running & clear from old value
     return () => clearInterval(interval);
-  }, [createdAt]);
+  }, [createdAt, setUpdateMessages]);
 
   
-   /*--- POST like to API ---*/
+   /*--- Update (PATCH) like count to API ---*/
 
-   const postLike = async (id) => {
-    const url = `https://happy-thoughts-api-4ful.onrender.com/thoughts/${id}/like`;
+   const updateLike = async (id) => {
+    const url = `https://js-project-api-wdi2.onrender.com/thoughts/id/${id}/like`;
+    console.log(hearts);
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: "PATCH", 
         headers: {
           "Content-Type": "application/json", //tell server it’s JSON
-        }
+        },
+        body: JSON.stringify({
+          hearts: hearts + 1
+        })
       });
+      console.log(response.body)
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

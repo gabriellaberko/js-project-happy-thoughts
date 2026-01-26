@@ -4,7 +4,7 @@ import { StyledFormCard, StyledInput, StyledWrapper, StyledErrorMessage } from "
 import { WordCount } from "./WordCount";
 
 
-export const FormCard = ({ setUpdateMessages, ...props }) => {
+export const FormCard = ({ setUpdateMessages }) => {
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
@@ -32,7 +32,7 @@ export const FormCard = ({ setUpdateMessages, ...props }) => {
   /*--- POST message to API ---*/
 
   const postMessage = async (message) => {
-    const url = `https://happy-thoughts-api-4ful.onrender.com/thoughts`;
+    const url = `https://js-project-api-wdi2.onrender.com/thoughts`;
 
     try {
       const response = await fetch(url, {

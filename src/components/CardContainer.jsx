@@ -25,7 +25,7 @@ export const CardContainer = () => {
   useEffect(() => {
 
     const fetchMessages = async () => {
-      const url = `https://happy-thoughts-api-4ful.onrender.com/thoughts`;
+      const url = `https://js-project-api-wdi2.onrender.com/thoughts`;
       try {
         const response = await fetch(url);
         if (!response.ok) {
