@@ -48,8 +48,13 @@ export const FormCard = ({ setUpdateMessages }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("Server response:", data);
+      const thought = await response.json();
+      console.log("Server response:", thought);
+      // Save editToken (for edit access9 to local storage
+      localStorage.setItem(
+        `edit-token-${thought._id}`,
+        thought.editToken
+      );
       setUpdateMessages(prev => prev + 1); // to trigger a re-fetch of data after sending the message
     }
     catch(error) {
