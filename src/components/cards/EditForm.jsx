@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { StyledInput, StyledWrapper, StyledErrorMessage } from "./Card.styled";
+import { StyledInput, StyledWrapper } from "./Card.styled";
 import { WordCount } from "./WordCount";
+import { ErrorMessage } from "./ErrorMessage";
 import { useMessageStore } from "../../stores/messageStore";
+import styled from "styled-components";
 
 
 export const EditForm = ({ id, setEditMode }) => {
@@ -54,7 +56,7 @@ export const EditForm = ({ id, setEditMode }) => {
 
 
   return (
-    <form as="form" onSubmit ={handleSubmit}>
+    <StyledForm onSubmit ={handleSubmit}>
       <StyledWrapper>
         <StyledInput 
           type="text" 
@@ -62,13 +64,47 @@ export const EditForm = ({ id, setEditMode }) => {
           onChange={handleInputChange}
         />
         <WordCount message={message} />
-        {error && 
-          <StyledErrorMessage>
-            <p><strong>⚠️ Error:</strong> The message must be between 1 and 140 characters.</p></StyledErrorMessage>
-        }
+        {error && <ErrorMessage />}
       </StyledWrapper>
-      <button type="submit">Update</button>
-      <button onClick={() => setEditMode(false)}>Cancel</button>
-    </form>
+      <StyledEditButtonsWrapper>
+        <StyledEditButton type="submit" onClick={handleSubmit}>Update</StyledEditButton>
+        <StyledCancelButton onClick={() => setEditMode(false)}>Cancel</StyledCancelButton>
+      </StyledEditButtonsWrapper>
+    </StyledForm>
   );
 }
+
+
+const StyledForm = styled.form`
+  width: 100%;
+  justify-content: center;
+  margin: 12px 0;
+`;
+
+const StyledEditButtonsWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  margin: 12px 0;
+`;
+
+const StyledEditButton = styled.button`
+  border: 1px solid ${(props => props.theme.colors.main.secondaryText)};;
+  color: ${(props => props.theme.colors.main.secondaryText)};
+  padding: 6px 8px;
+  font-size: 12px;
+  cursor: pointer;
+
+    &:hover {
+    transform: translateY(-1px);
+    box-shadow: 4px 4px 0px  rgba(0, 0, 0, 0.06);
+  }
+`;
+
+const StyledCancelButton = styled.button`
+  border: none;
+  text-decoration: underline;
+  color: ${(props => props.theme.colors.main.secondaryText)};
+  cursor: pointer;
+  background-color: transparent;
+`;

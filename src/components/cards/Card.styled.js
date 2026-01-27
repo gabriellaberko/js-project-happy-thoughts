@@ -2,13 +2,6 @@ import styled, { keyframes } from "styled-components";
 
 /* --- Animations --- */
 
-const shake = keyframes`
-  0% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
-  20%, 40%, 60%, 80% { transform: translateX(3px); }
-  100% { transform: translateX(0); }
-`;
-
 const popIn = keyframes`
   0% {
     opacity: 0;
@@ -34,7 +27,7 @@ export const StyledCard = styled.div`
   gap: 16px;
   background-color: ${(props) => props.theme.colors.messageCard.bg};
   border: 1px solid ${(props) => props.theme.colors.card.border};
-  padding: 24px;
+  padding: 22px;
   box-shadow: 8px 8px 0px ${(props) => props.theme.colors.card.shadow};
   width: 100%;
   animation: ${popIn} 0.4s ease;
@@ -63,16 +56,4 @@ export const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`;
-
-
-export const StyledErrorMessage = styled.div`
-  display: flex;
-  padding: 12px;
-  color: #D94F4B;
-  background-color: #FDEAEA;
-  border: 2px solid #D94F4B;
-  font-size: 14px;
-
-  animation: ${shake} 0.5s ease;
 `;

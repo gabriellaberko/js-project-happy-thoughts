@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { SubmitBtn } from "../buttons/SubmitBtn";
-import { StyledFormCard, StyledInput, StyledWrapper, StyledErrorMessage } from "./Card.styled";
+import { StyledFormCard, StyledInput, StyledWrapper } from "./Card.styled";
 import { WordCount } from "./WordCount";
+import { ErrorMessage } from "./ErrorMessage";
 import { useMessageStore } from "../../stores/messageStore";
 
 
@@ -77,10 +78,7 @@ export const FormCard = () => {
           onChange={handleInputChange}
         />
         <WordCount message={message} />
-        {error && 
-          <StyledErrorMessage>
-            <p><strong>⚠️ Error:</strong> The message must be between 1 and 140 characters.</p></StyledErrorMessage>
-        }
+        {error && <ErrorMessage />}
       </StyledWrapper>
       <SubmitBtn>
         Send Happy Thought
