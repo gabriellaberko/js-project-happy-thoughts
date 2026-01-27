@@ -14,7 +14,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
 
   const hasEditRights = localStorage.getItem(`edit-token-${id}`); 
 
-  //sync with the hearts prop when it changes (when new card is posted)
+  // Sync with the hearts prop when it changes (when new card is posted)
   useEffect(() => {
     setLikeCount(hearts);
     setIsActive(hearts >= 1);
@@ -24,7 +24,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
   const handleClick = () => {
     setLikeCount(prev => prev +1);
     setIsActive(true);
-    updateLike(id);
+    updateLikes(id);
     if (likedThoughts &&!likedThoughts.includes(id)) {
       setLikedThoughts(prev => [...prev, id]);
     } 
@@ -36,36 +36,52 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
   useEffect(() => {
     const interval = setInterval(() => {
       checkTimeAgoSubmitted(createdAt);
-      setUpdateMessages(prev => prev + 1); //trigger re-fetch of data
+      setUpdateMessages(prev => prev + 1); // Trigger re-fetch of data
     }, 60000);
   
-    //prevent interval form keep running & clear from old value
+    // Prevent interval form keep running & clear from old value
     return () => clearInterval(interval);
   }, [createdAt, setUpdateMessages]);
 
   
    /*--- Update (PATCH) like count to API ---*/
-
-   const updateLike = async (id) => {
+   const updateLikes = async (id) => {
     const url = `https://js-project-api-wdi2.onrender.com/thoughts/id/${id}/like`;
-    console.log(hearts);
     try {
       const response = await fetch(url, {
         method: "PATCH", 
-        headers: {
-          "Content-Type": "application/json", //tell server it’s JSON
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
           hearts: hearts + 1
         })
       });
-      console.log(response.body)
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
       console.log("Server response:", data);
-      setUpdateMessages(prev => prev + 1); // to trigger a re-fetch of data after sending a like to the API
+      setUpdateMessages(prev => prev + 1); // To trigger a re-fetch of data after sending a like to the API
+    }
+    catch(error) {
+      console.error("Sending error:", error);
+    }
+  };
+
+  /*--- Delete thought in API ---*/
+   const deleteThought = async (id) => {
+    const url = `https://js-project-api-wdi2.onrender.com/thoughts/id/${id}`;
+    try {
+      const response = await fetch(url, {
+        method: "DELETE", 
+        headers: {"Content-Type": "application/json"}, 
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Server response:", data);
+      setUpdateMessages(prev => prev + 1); // To trigger a re-fetch of data after sending a like to the API
+      localStorage.removeItem(`edit-token-${id}`); // Remove edit token from local storage
     }
     catch(error) {
       console.error("Sending error:", error);
@@ -85,7 +101,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
             {hasEditRights && 
         <StyledEditWrapper>
           <StyledEditButton>Edit</StyledEditButton>
-          <StyledEditButton>Delete</StyledEditButton>
+          <StyledEditButton onClick={() => deleteThought(id)}>Delete</StyledEditButton>
         </StyledEditWrapper>
       }
     </StyledCard>
