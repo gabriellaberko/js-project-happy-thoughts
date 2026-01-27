@@ -12,6 +12,8 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
   const [likeCount, setLikeCount] = useState(hearts);
   const [isActive, setIsActive] = useState(hearts>=1 ? true : false);
 
+  const hasEditRights = localStorage.getItem(`edit-token-${id}`); 
+
   //sync with the hearts prop when it changes (when new card is posted)
   useEffect(() => {
     setLikeCount(hearts);
@@ -80,6 +82,12 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
         </StyledLikeWrapper>
         <p>{checkTimeAgoSubmitted(createdAt)}</p>
       </StyledBottomWrapper>
+            {hasEditRights && 
+        <StyledEditWrapper>
+          <StyledEditButton>Edit</StyledEditButton>
+          <StyledEditButton>Delete</StyledEditButton>
+        </StyledEditWrapper>
+      }
     </StyledCard>
   );
 }
@@ -89,9 +97,30 @@ const StyledLikeWrapper = styled.div`
   gap: 12px;
 `;
 
+const StyledEditWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 12px;
+`;
+
+const StyledEditButton = styled.div`
+  border: 1px solid ${(props => props.theme.colors.main.secondaryText)};;
+  color: ${(props => props.theme.colors.main.secondaryText)};
+  padding: 6px 8px;
+  font-size: 12px;
+  cursor: pointer;
+
+    &:hover {
+    transform: translateY(-1px);
+    box-shadow: 4px 4px 0px  rgba(0, 0, 0, 0.06);
+  }
+`;
+
 const StyledBottomWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
   color: ${(props => props.theme.colors.main.secondaryText)}
 `;
+

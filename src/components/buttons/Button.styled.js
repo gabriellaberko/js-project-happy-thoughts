@@ -15,7 +15,7 @@ export const StyledBtn = styled.button`
   &:hover {
     background-color: ${(props) => props.theme.colors.button[props.variant]?.hoverBg};
     transform: translateY(-1px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.18);
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.08);
   }
 
   &:active {
