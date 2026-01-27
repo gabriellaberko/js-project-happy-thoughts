@@ -3,14 +3,18 @@ import { StyledCard } from "./Card.styled";
 import { LikeBtn } from "../buttons/LikeBtn";
 import styled from "styled-components";
 import dayjs from "dayjs";
-import relativeTime from 'dayjs/plugin/relativeTime'
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { EditForm } from "./EditForm";
+import { useMessageStore } from "../../stores/messageStore";
 
 dayjs.extend(relativeTime);
 
-export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages, id, hearts, createdAt, children }) => {
+export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, createdAt, children }) => {
 
+  const triggerUpdateMessages = useMessageStore((state) => state.triggerUpdateMessages);
   const [likeCount, setLikeCount] = useState(hearts);
   const [isActive, setIsActive] = useState(hearts>=1 ? true : false);
+  const [editMode, setEditMode] = useState(false);
 
   const hasEditRights = localStorage.getItem(`edit-token-${id}`); 
 
@@ -30,22 +34,26 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
     } 
   };
 
+  const activateEditMode = () => {
+    setEditMode(true);
+  };
+
   const checkTimeAgoSubmitted = createdAt => dayjs(createdAt).fromNow();
 
 
   useEffect(() => {
     const interval = setInterval(() => {
       checkTimeAgoSubmitted(createdAt);
-      setUpdateMessages(prev => prev + 1); // Trigger re-fetch of data
+      triggerUpdateMessages(); // Trigger re-fetch of data
     }, 60000);
   
     // Prevent interval form keep running & clear from old value
     return () => clearInterval(interval);
-  }, [createdAt, setUpdateMessages]);
+  }, [createdAt, triggerUpdateMessages]);
 
   
-   /*--- Update (PATCH) like count to API ---*/
-   const updateLikes = async (id) => {
+  /*--- Update (PATCH) like count to API ---*/
+  const updateLikes = async (id) => {
     const url = `https://js-project-api-wdi2.onrender.com/thoughts/id/${id}/like`;
     try {
       const response = await fetch(url, {
@@ -60,7 +68,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
       }
       const data = await response.json();
       console.log("Server response:", data);
-      setUpdateMessages(prev => prev + 1); // To trigger a re-fetch of data after sending a like to the API
+      triggerUpdateMessages(); // To trigger a re-fetch of data after sending a like to the API
     }
     catch(error) {
       console.error("Sending error:", error);
@@ -80,7 +88,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
       }
       const data = await response.json();
       console.log("Server response:", data);
-      setUpdateMessages(prev => prev + 1); // To trigger a re-fetch of data after sending a like to the API
+      triggerUpdateMessages(); // To trigger a re-fetch of data after sending a like to the API
       localStorage.removeItem(`edit-token-${id}`); // Remove edit token from local storage
     }
     catch(error) {
@@ -88,9 +96,12 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
     }
   };
 
+
   return (
     <StyledCard>
-      {children}
+      {editMode 
+        ? <EditForm id={id} setEditMode={setEditMode}></EditForm>
+        : children}
       <StyledBottomWrapper>
         <StyledLikeWrapper>
           <LikeBtn onClick={handleClick} $active={isActive} />
@@ -98,10 +109,14 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, setUpdateMessages
         </StyledLikeWrapper>
         <p>{checkTimeAgoSubmitted(createdAt)}</p>
       </StyledBottomWrapper>
-            {hasEditRights && 
+        {hasEditRights && 
         <StyledEditWrapper>
-          <StyledEditButton>Edit</StyledEditButton>
-          <StyledEditButton onClick={() => deleteThought(id)}>Delete</StyledEditButton>
+          { !editMode &&
+            <>
+              <StyledEditButton onClick={activateEditMode}>Edit</StyledEditButton>
+              <StyledEditButton onClick={() => deleteThought(id)}>Delete</StyledEditButton>
+            </>
+          }
         </StyledEditWrapper>
       }
     </StyledCard>

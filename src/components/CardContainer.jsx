@@ -3,12 +3,15 @@ import { FormCard } from "./cards/FormCard";
 import { MessageCard } from "./cards/MessageCard";
 import styled from "styled-components";
 import { Loader } from "./Loader";
+import { useMessageStore } from "../stores/messageStore";
 
 
 export const CardContainer = () => {
 
+  const updateMessages = useMessageStore(state => state.updateMessages);
+
   const [messages, setMessages] = useState([]);
-  const [updateMessages, setUpdateMessages] = useState(0); //for re-fetching data
+  // const [updateMessages, setUpdateMessages] = useState(0); //for re-fetching data
   const [loading, setLoading] = useState(true);
   const [likedThoughts, setLikedThoughts] = useState(() => {
     return JSON.parse(localStorage.getItem("likedThoughts")) || [];
@@ -40,6 +43,7 @@ export const CardContainer = () => {
       }
     };
     fetchMessages();
+    
   },[updateMessages])
 
   
@@ -55,7 +59,7 @@ export const CardContainer = () => {
           </StyledText>
       )}
     <StyledCardContainer>
-      <FormCard setUpdateMessages={setUpdateMessages} />
+      <FormCard />
       {loading && <Loader />}
       {messages
         .slice() //copy array to not mutate the original for sorting
@@ -66,7 +70,6 @@ export const CardContainer = () => {
           createdAt={message.createdAt}
           id={message._id}
           hearts={message.hearts}
-          setUpdateMessages={setUpdateMessages}
           likedThoughts={likedThoughts}
           setLikedThoughts={setLikedThoughts}
           >

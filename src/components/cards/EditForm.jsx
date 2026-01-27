@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { SubmitBtn } from "../buttons/SubmitBtn";
-import { StyledFormCard, StyledInput, StyledWrapper, StyledErrorMessage } from "./Card.styled";
+import { StyledInput, StyledWrapper, StyledErrorMessage } from "./Card.styled";
 import { WordCount } from "./WordCount";
 import { useMessageStore } from "../../stores/messageStore";
 
 
-export const FormCard = () => {
+export const EditForm = ({ id, setEditMode }) => {
 
   const triggerUpdateMessages = useMessageStore((state) => state.triggerUpdateMessages);
-
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
 
@@ -17,62 +15,49 @@ export const FormCard = () => {
     
     if(checkIfWithinWordLimit()) {
       setError(false);
-      postMessage(message);
-      
+      updateMessage(id);
       setMessage(""); //reset on submit
     } else {
       setError(true);
     }
-  }
+  };
 
 
   const handleInputChange = (e) => setMessage(e.target.value);
 
-
   const checkIfWithinWordLimit = () => message.length >= 1 && message.length <= 140;
 
 
-  /*--- POST message to API ---*/
-
-  const postMessage = async (message) => {
-    const url = `https://js-project-api-wdi2.onrender.com/thoughts`;
-
+  /*--- Update (PATCH) message to API ---*/
+  const updateMessage = async (id) => {
+    const url = `https://js-project-api-wdi2.onrender.com/thoughts/id/${id}/message`;
     try {
       const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", //tell server it’s JSON
-        },
-        body: JSON.stringify({ message: message }) //convert JS object to JSON string
+        method: "PATCH", 
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          message: message
+        })
       });
-
-    
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
-      const thought = await response.json();
-      console.log("Server response:", thought);
-      // Save editToken (for edit access9 to local storage
-      localStorage.setItem(
-        `edit-token-${thought._id}`,
-        thought.editToken
-      );
-      triggerUpdateMessages(); // to trigger a re-fetch of data after sending the message
+      const data = await response.json();
+      console.log("Server response:", data);
+      setEditMode(false);
+      triggerUpdateMessages(); // To trigger a re-fetch of data after sending a like to the API
     }
     catch(error) {
-      console.error("Sending error:", error);
+      console.error("Sending error:", error.message);
     }
   };
 
 
   return (
-    <StyledFormCard as="form" onSubmit ={handleSubmit}>
+    <form as="form" onSubmit ={handleSubmit}>
       <StyledWrapper>
-      <h2>What's making you happy right now?</h2> 
         <StyledInput 
           type="text" 
-          placeholder="Share a happy thought..." 
           value={message}
           onChange={handleInputChange}
         />
@@ -82,9 +67,8 @@ export const FormCard = () => {
             <p><strong>⚠️ Error:</strong> The message must be between 1 and 140 characters.</p></StyledErrorMessage>
         }
       </StyledWrapper>
-      <SubmitBtn>
-        Send Happy Thought
-      </SubmitBtn>
-    </StyledFormCard>
+      <button type="submit">Update</button>
+      <button onClick={() => setEditMode(false)}>Cancel</button>
+    </form>
   );
 }
