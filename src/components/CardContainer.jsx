@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Loader } from "./Loader";
 import { useThoughtStore } from "../stores/thoughtStore";
 import { FilterSortConfig } from "./FilterSortConfig";
+import { ThoughtBubble } from "./ThoughtBubble";
 
 
 export const CardContainer = () => {
@@ -69,42 +70,44 @@ export const CardContainer = () => {
 
   
   return(
+    <>
+    {likedThoughts.length > 0 && (
+      <StyledDiv>
+      <ThoughtBubble>
+        <p>You have ❤️ {likedThoughts.length}{" "}
+        {likedThoughts.length === 1 ? "post" : "posts"}.<br></br>Keep spreading hapiness!</p>
+      </ThoughtBubble>
+      </StyledDiv>
+    )}
     <StyledWrapper>
       <h1>Happy Thoughts</h1>
-      {likedThoughts.length > 0 && (
-      <StyledText>
-        You've liked {likedThoughts.length}{" "}
-        {likedThoughts.length === 1 ? "post" : "posts"}.
-        <br></br>
-        Keep up the good work of spreading happiness!
-      </StyledText>
-      )}
-    <StyledCardContainer>
-      <FormCard />
-      <FilterSortConfig 
-        filter={filter} 
-        setFilter={setFilter} 
-        sortBy={sortBy} 
-        setSortBy={setSortBy} 
-        sortingOrder={sortingOrder} 
-        setSortingOrder={setSortingOrder} 
-      />
-      {loading && <Loader />}
-      {thoughts
-        .map((thought, index) => 
-        (<MessageCard 
-          key={index} 
-          createdAt={thought.createdAt}
-          id={thought._id}
-          hearts={thought.hearts}
-          likedThoughts={likedThoughts}
-          setLikedThoughts={setLikedThoughts}
-          >
-            {thought.message}
-        </MessageCard>
-       ))}
-    </StyledCardContainer>
+      <StyledCardContainer>
+        <FormCard />
+        <FilterSortConfig 
+          filter={filter} 
+          setFilter={setFilter} 
+          sortBy={sortBy} 
+          setSortBy={setSortBy} 
+          sortingOrder={sortingOrder} 
+          setSortingOrder={setSortingOrder} 
+        />
+        {loading && <Loader />}
+        {thoughts
+          .map((thought, index) => 
+          (<MessageCard 
+            key={index} 
+            createdAt={thought.createdAt}
+            id={thought._id}
+            hearts={thought.hearts}
+            likedThoughts={likedThoughts}
+            setLikedThoughts={setLikedThoughts}
+            >
+              {thought.message}
+          </MessageCard>
+        ))}
+      </StyledCardContainer>
     </StyledWrapper>
+    </>
   );
 }
 
@@ -128,10 +131,24 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 42px;
+
+  @media ${(props) => props.theme.media.tablet}  {
+    margin-top: 0;
+  }
 `;
 
-const StyledText = styled.p`
+const StyledDiv = styled.div`
+  display: flex;
+  justify-content: center;
   text-align: center;
-  color: ${(props) => props.theme.colors.main.secondaryText}
+  font-size: 14px;
+  width: 100%;
+  color: ${(props) => props.theme.colors.main.secondaryText};
+  @media ${(props) => props.theme.media.tablet}  {
+    justify-content: flex-end;
+    text-align: end;
+  }
+  margin-bottom: 12px;
 `;
 
