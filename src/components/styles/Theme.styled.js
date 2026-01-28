@@ -24,13 +24,13 @@ export const theme = {
     button: {
       submit:{
         bg: "#F7A8A6",
-        hoverBg: "#F9B8B5",
+        hoverBg: "#F8B0AF",
         hoverShadow: "rgba(0, 0, 0, 0.18)",
-        activebg: "#E48C89"
+        activebg: "#F7A8A6"
       },
       like: {
         bg: "#F0F0F0",
-        hoverBg: "#F9B8B5",
+        hoverBg: "#F8B0AF",
         hoverShadow: "rgba(0, 0, 0, 0.18)",
         activeBg: "#F7A8A6"
       }

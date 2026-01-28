@@ -5,13 +5,13 @@ import styled from "styled-components";
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { EditForm } from "./EditForm";
-import { useMessageStore } from "../../stores/messageStore";
+import { useThoughtStore } from "../../stores/thoughtStore";
 
 dayjs.extend(relativeTime);
 
 export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, createdAt, children }) => {
 
-  const triggerUpdateMessages = useMessageStore((state) => state.triggerUpdateMessages);
+  const triggerUpdateThoughts = useThoughtStore((state) => state.triggerUpdateThoughts);
   const [likeCount, setLikeCount] = useState(hearts);
   const [isActive, setIsActive] = useState(hearts>=1 ? true : false);
   const [editMode, setEditMode] = useState(false);
@@ -44,12 +44,12 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, creat
   useEffect(() => {
     const interval = setInterval(() => {
       checkTimeAgoSubmitted(createdAt);
-      triggerUpdateMessages(); // Trigger re-fetch of data
+      triggerUpdateThoughts(); // Trigger re-fetch of data
     }, 60000);
   
     // Prevent interval form keep running & clear from old value
     return () => clearInterval(interval);
-  }, [createdAt, triggerUpdateMessages]);
+  }, [createdAt, triggerUpdateThoughts]);
 
   
   /*--- Update (PATCH) like count to API ---*/
@@ -68,7 +68,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, creat
       }
       const data = await response.json();
       console.log("Server response:", data);
-      triggerUpdateMessages(); // To trigger a re-fetch of data after sending a like to the API
+      triggerUpdateThoughts(); // To trigger a re-fetch of data after sending a like to the API
     }
     catch(error) {
       console.error("Sending error:", error);
@@ -88,7 +88,7 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, creat
       }
       const data = await response.json();
       console.log("Server response:", data);
-      triggerUpdateMessages(); // To trigger a re-fetch of data after sending a like to the API
+      triggerUpdateThoughts(); // To trigger a re-fetch of data after sending a like to the API
       localStorage.removeItem(`edit-token-${id}`); // Remove edit token from local storage
     }
     catch(error) {

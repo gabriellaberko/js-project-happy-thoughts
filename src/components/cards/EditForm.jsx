@@ -2,13 +2,13 @@ import { useState } from "react";
 import { StyledInput, StyledWrapper } from "./Card.styled";
 import { WordCount } from "./WordCount";
 import { ErrorMessage } from "./ErrorMessage";
-import { useMessageStore } from "../../stores/messageStore";
+import { useThoughtStore } from "../../stores/thoughtStore";
 import styled from "styled-components";
 
 
 export const EditForm = ({ id, setEditMode }) => {
 
-  const triggerUpdateMessages = useMessageStore((state) => state.triggerUpdateMessages);
+  const triggerUpdateThoughts = useThoughtStore((state) => state.triggerUpdateThoughts);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
 
@@ -47,7 +47,7 @@ export const EditForm = ({ id, setEditMode }) => {
       const data = await response.json();
       console.log("Server response:", data);
       setEditMode(false);
-      triggerUpdateMessages(); // To trigger a re-fetch of data after sending a like to the API
+      triggerUpdateThoughts(); // To trigger a re-fetch of data after sending a like to the API
     }
     catch(error) {
       console.error("Sending error:", error.message);

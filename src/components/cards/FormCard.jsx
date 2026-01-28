@@ -3,12 +3,12 @@ import { SubmitBtn } from "../buttons/SubmitBtn";
 import { StyledFormCard, StyledInput, StyledWrapper } from "./Card.styled";
 import { WordCount } from "./WordCount";
 import { ErrorMessage } from "./ErrorMessage";
-import { useMessageStore } from "../../stores/messageStore";
+import { useThoughtStore } from "../../stores/thoughtStore";
 
 
 export const FormCard = () => {
 
-  const triggerUpdateMessages = useMessageStore((state) => state.triggerUpdateMessages);
+  const triggerUpdateThoughts = useThoughtStore((state) => state.triggerUpdateThoughts);
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
@@ -59,7 +59,7 @@ export const FormCard = () => {
         `edit-token-${thought._id}`,
         thought.editToken
       );
-      triggerUpdateMessages(); // to trigger a re-fetch of data after sending the message
+      triggerUpdateThoughts(); // to trigger a re-fetch of data after updating the message
     }
     catch(error) {
       console.error("Sending error:", error);

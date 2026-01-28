@@ -3,32 +3,53 @@ import { FormCard } from "./cards/FormCard";
 import { MessageCard } from "./cards/MessageCard";
 import styled from "styled-components";
 import { Loader } from "./Loader";
-import { useMessageStore } from "../stores/messageStore";
+import { useThoughtStore } from "../stores/thoughtStore";
+import { FilterSortConfig } from "./FilterSortConfig";
 
 
 export const CardContainer = () => {
 
-  const updateMessages = useMessageStore(state => state.updateMessages);
+  const updateThoughts = useThoughtStore(state => state.updateThoughts);
 
-  const [messages, setMessages] = useState([]);
-  // const [updateMessages, setUpdateMessages] = useState(0); //for re-fetching data
+  const [thoughts, setThoughts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [likedThoughts, setLikedThoughts] = useState(() => {
     return JSON.parse(localStorage.getItem("likedThoughts")) || [];
   });
+  // For sorting and filtering thoughts
+  const [filter, setFilter] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [sortingOrder, setSortingOrder] = useState("");
 
-  //sync the likes to local storage whenever likedThoughts is changing
+  // Sync the likes to local storage whenever likedThoughts is changing
   useEffect(() => {
     localStorage.setItem("likedThoughts", JSON.stringify(likedThoughts));
   }, [likedThoughts]);
 
 
-  /*--- Fetch messages from API ---*/
+  /*--- Fetch thoughts from API ---*/
 
   useEffect(() => {
 
-    const fetchMessages = async () => {
-      const url = `https://js-project-api-wdi2.onrender.com/thoughts`;
+    const fetchThoughts = async () => {
+      const params = new URLSearchParams();
+
+      if (filter) {
+        params.append("minLikes", filter);
+      }
+
+      if (sortBy) {
+        params.append("sortBy", sortBy);
+
+        if (sortingOrder) {
+          params.append("order", sortingOrder);
+        }
+      }
+      const query = params.toString();
+      const url = query
+        ? `https://js-project-api-wdi2.onrender.com/thoughts?${query}`
+        : `https://js-project-api-wdi2.onrender.com/thoughts`;
+      
       try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -36,44 +57,50 @@ export const CardContainer = () => {
         }
         const data = await response.json();
         setLoading(false);
-        setMessages(data);
+        setThoughts(data);
       }   
       catch (error) {
         console.error("Fetch error:", error);
       }
     };
-    fetchMessages();
+    fetchThoughts();
     
-  },[updateMessages])
+  },[updateThoughts, filter, sortBy, sortingOrder])
 
   
   return(
     <StyledWrapper>
-            <h1>Happy Thoughts</h1>
+      <h1>Happy Thoughts</h1>
       {likedThoughts.length > 0 && (
-          <StyledText>
-            You've liked {likedThoughts.length}{" "}
-            {likedThoughts.length === 1 ? "post" : "posts"}.
-            <br></br>
-            Keep up the good work of spreading happiness!
-          </StyledText>
+      <StyledText>
+        You've liked {likedThoughts.length}{" "}
+        {likedThoughts.length === 1 ? "post" : "posts"}.
+        <br></br>
+        Keep up the good work of spreading happiness!
+      </StyledText>
       )}
     <StyledCardContainer>
       <FormCard />
+      <FilterSortConfig 
+        filter={filter} 
+        setFilter={setFilter} 
+        sortBy={sortBy} 
+        setSortBy={setSortBy} 
+        sortingOrder={sortingOrder} 
+        setSortingOrder={setSortingOrder} 
+      />
       {loading && <Loader />}
-      {messages
-        .slice() //copy array to not mutate the original for sorting
-        .sort((a, b) => b.createdAt - a.createdAt)
-        .map((message, index) => 
+      {thoughts
+        .map((thought, index) => 
         (<MessageCard 
           key={index} 
-          createdAt={message.createdAt}
-          id={message._id}
-          hearts={message.hearts}
+          createdAt={thought.createdAt}
+          id={thought._id}
+          hearts={thought.hearts}
           likedThoughts={likedThoughts}
           setLikedThoughts={setLikedThoughts}
           >
-            {message.message}
+            {thought.message}
         </MessageCard>
        ))}
     </StyledCardContainer>
@@ -86,7 +113,7 @@ const StyledCardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  padding: 24px;
+  padding: 18px;
   overflow-wrap: anywhere;
 
   @media ${(props) => props.theme.media.tablet}  {
