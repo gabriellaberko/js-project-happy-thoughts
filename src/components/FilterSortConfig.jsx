@@ -12,7 +12,7 @@ return(
             value={sortBy} 
             onChange={(e) => setSortBy(e.target.value)}
           >
-            <option>-- Options --</option>
+            <option value="">-- All --</option>
             <option value="date">Date</option>
             <option value="likes">Likes</option>
           </StyledSelect>
@@ -31,11 +31,11 @@ return(
         </StyledSelectWrapper>
       </StyledInputWrapper>
       <StyledRangeWrapper>
-        <StyledLabel htmlFor="filter-likes">Filter on number of likes: <strong>{filter}</strong></StyledLabel>
+        <StyledLabel htmlFor="filter-likes">Filter on minimum likes: <strong>{filter}</strong></StyledLabel>
         <StyledRangeInput
           type="range"
           id="filter-likes"
-          min="1"
+          min="0"
           max="20"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
