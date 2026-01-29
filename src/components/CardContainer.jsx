@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { AuthenticationForm } from "./forms/AuthenticationForm";
 import { FormCard } from "./cards/FormCard";
 import { MessageCard } from "./cards/MessageCard";
 import styled from "styled-components";
@@ -80,8 +81,9 @@ export const CardContainer = () => {
       </StyledDiv>
     )}
     <StyledWrapper>
-      <h1>Happy Thoughts</h1>
       <StyledCardContainer>
+        <AuthenticationForm />
+        <h1>Happy Thoughts</h1>
         <FormCard />
         <FilterSortConfig 
           filter={filter} 

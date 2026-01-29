@@ -23,3 +23,18 @@ export const StyledBtn = styled.button`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
   }
 `;
+
+
+export const StyledSimpleBtn = styled.button`
+  border: 1px solid ${(props => props.theme.colors.main.secondaryText)};
+  color: ${(props => props.theme.colors.main.secondaryText)};
+  background-color: transparent;
+  padding: 6px 8px;
+  font-size: 12px;
+  cursor: pointer;
+
+    &:hover {
+    /* transform: translateY(-1px); */
+    box-shadow: 4px 4px 0px  rgba(0, 0, 0, 0.06);
+  }
+`;

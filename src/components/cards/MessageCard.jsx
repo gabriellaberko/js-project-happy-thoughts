@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { StyledCard } from "./Card.styled";
 import { LikeBtn } from "../buttons/LikeBtn";
+import { StyledSimpleBtn } from "../buttons/Button.styled";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -113,8 +114,8 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, creat
         <StyledEditWrapper>
           { !editMode &&
             <>
-              <StyledEditButton onClick={activateEditMode}>Edit</StyledEditButton>
-              <StyledEditButton onClick={() => deleteThought(id)}>Delete</StyledEditButton>
+              <StyledSimpleBtn onClick={activateEditMode}>Edit</StyledSimpleBtn>
+              <StyledSimpleBtn onClick={() => deleteThought(id)}>Delete</StyledSimpleBtn>
             </>
           }
         </StyledEditWrapper>
@@ -135,18 +136,6 @@ const StyledEditWrapper = styled.div`
   gap: 12px;
 `;
 
-const StyledEditButton = styled.div`
-  border: 1px solid ${(props => props.theme.colors.main.secondaryText)};;
-  color: ${(props => props.theme.colors.main.secondaryText)};
-  padding: 6px 8px;
-  font-size: 12px;
-  cursor: pointer;
-
-    &:hover {
-    transform: translateY(-1px);
-    box-shadow: 4px 4px 0px  rgba(0, 0, 0, 0.06);
-  }
-`;
 
 const StyledBottomWrapper = styled.div`
   display: flex;
