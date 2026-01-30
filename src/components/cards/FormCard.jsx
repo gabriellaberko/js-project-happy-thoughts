@@ -4,10 +4,12 @@ import { StyledFormCard, StyledInput, StyledWrapper } from "./Card.styled";
 import { WordCount } from "./WordCount";
 import { ErrorMessage } from "./ErrorMessage";
 import { useThoughtStore } from "../../stores/thoughtStore";
+import { useAuthStore } from "../../stores/authStore";
 
 export const FormCard = () => {
 
   const triggerUpdateThoughts = useThoughtStore((state) => state.triggerUpdateThoughts);
+  const accessToken = useAuthStore((state) => state.accessToken);
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
@@ -40,6 +42,7 @@ export const FormCard = () => {
       const response = await fetch(url, {
         method: "POST",
         headers: {
+          "Authorization": accessToken,
           "Content-Type": "application/json", 
         },
         body: JSON.stringify({ message: message })
