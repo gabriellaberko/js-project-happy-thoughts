@@ -80,9 +80,9 @@ export const CardContainer = () => {
       </ThoughtBubble>
       </StyledDiv>
     )}
+    <AuthenticationForm />
     <StyledWrapper>
       <StyledCardContainer>
-        <AuthenticationForm />
         <h1>Happy Thoughts</h1>
         <FormCard />
         <FilterSortConfig 
@@ -113,12 +113,12 @@ export const CardContainer = () => {
   );
 }
 
-const StyledCardContainer = styled.div`
+export const StyledCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  padding: 18px;
+  padding: 0 18px;
   overflow-wrap: anywhere;
 
   @media ${(props) => props.theme.media.tablet}  {
@@ -133,7 +133,7 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 42px;
+  /* margin-top: 42px; */
 
   @media ${(props) => props.theme.media.tablet}  {
     margin-top: 0;

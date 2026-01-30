@@ -45,6 +45,10 @@ export const StyledFormCard = styled(StyledCard)`
   }
 `;
 
+export const StyledAuthForm = styled(StyledFormCard)`
+  width: 70%;
+`;
+
 
 export const StyledInput = styled.input`
     padding: 24px;

@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     background: ${(props) => props.theme.colors.main.bg};
     color: ${(props) => props.theme.colors.main.primaryText};
     box-sizing: border-box;
-    margin: 12px 24px 24px 24px;
+    margin: 6px 18px 18px 18px;
   }
 
   h2 {
