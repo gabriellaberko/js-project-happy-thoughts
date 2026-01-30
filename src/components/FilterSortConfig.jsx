@@ -12,7 +12,7 @@ return(
             value={sortBy} 
             onChange={(e) => setSortBy(e.target.value)}
           >
-            <option value="">-- All --</option>
+            <option value="">All</option>
             <option value="date">Date</option>
             <option value="likes">Likes</option>
           </StyledSelect>

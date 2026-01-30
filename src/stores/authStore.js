@@ -4,21 +4,25 @@ export const useAuthStore = create((set) => ({
 
   accessToken: null,
   isAuthenticated: false,
+  name: null,
 
-  login: (accessToken) => {
+  login: ({ accessToken, name }) => {
     localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("name", name);
     set({
       accessToken: accessToken,
       isAuthenticated: true,
+      name: name
     });
-    console.log("logged in", "accessToken:", typeof accessToken);
   },
 
   logout: () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("name");
     set({
       accessToken: null,
       isAuthenticated: false,
+      name: null
     });
   },
 

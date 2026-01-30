@@ -7,11 +7,14 @@ import { Loader } from "./Loader";
 import { useThoughtStore } from "../stores/thoughtStore";
 import { FilterSortConfig } from "./FilterSortConfig";
 import { ThoughtBubble } from "./ThoughtBubble";
+import { useAuthStore } from "../stores/authStore";
 
 
 export const CardContainer = () => {
 
   const updateThoughts = useThoughtStore(state => state.updateThoughts);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const userName = useAuthStore(state => state.name);
 
   const [thoughts, setThoughts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -83,7 +86,7 @@ export const CardContainer = () => {
     <AuthenticationForm />
     <StyledWrapper>
       <StyledCardContainer>
-        <h1>Happy Thoughts</h1>
+        {isAuthenticated ? <h1>Hi, {userName}!</h1> : <h1>Happy Thoughts</h1>}
         <FormCard />
         <FilterSortConfig 
           filter={filter} 
@@ -113,7 +116,7 @@ export const CardContainer = () => {
   );
 }
 
-export const StyledCardContainer = styled.div`
+const StyledCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

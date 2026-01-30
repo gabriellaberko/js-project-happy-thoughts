@@ -61,7 +61,7 @@ export const AuthenticationForm = () => {
       }
 
       const newUser = await response.json();
-      login(newUser.accessToken);
+      login({ accessToken: newUser.accessToken, name: newUser.name });
       setShowForm(false);
     }
     catch(error) {
@@ -90,7 +90,7 @@ export const AuthenticationForm = () => {
       }
 
       const loggedInUser = await response.json();
-      login(loggedInUser.accessToken);
+      login({ accessToken: loggedInUser.accessToken, name: loggedInUser.name });
       setShowForm(false);
     }
     catch(error) {
@@ -105,7 +105,7 @@ export const AuthenticationForm = () => {
     {isAuthenticated 
       ?
         <StyledBtnDiv>
-          <StyledBtn onClick={logout}>Log out</StyledBtn>
+          <StyledBtn onClick={logout}>[➜ Log out</StyledBtn>
         </StyledBtnDiv>
       :
         <StyledBtnDiv>
