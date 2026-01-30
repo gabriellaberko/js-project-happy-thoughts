@@ -1,10 +1,10 @@
 import styled, { keyframes } from "styled-components";
 
-export const ErrorMessage = () => {
+export const ErrorMessage = ({ children }) => {
   
   return (
     <StyledErrorMessage>
-      <p><strong>⚠️ Error:</strong> The message must be between 1 and 140 characters.</p>
+      <p><strong>⚠️ Error:</strong>{children}</p>
     </StyledErrorMessage>  
   );
 }
@@ -21,7 +21,8 @@ const shake = keyframes`
 
 export const StyledErrorMessage = styled.div`
   display: flex;
-  padding: 12px;
+  justify-content: center;
+  padding: 4px 12px;
   color: #D94F4B;
   background-color: #FDEAEA;
   border: 2px solid #D94F4B;

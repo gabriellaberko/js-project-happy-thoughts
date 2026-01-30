@@ -34,7 +34,6 @@ export const FormCard = () => {
 
 
   /*--- POST message to API ---*/
-
   const postMessage = async (message) => {
     const url = `https://js-project-api-wdi2.onrender.com/thoughts`;
 
@@ -54,7 +53,7 @@ export const FormCard = () => {
 
       const thought = await response.json();
       console.log("Server response:", thought);
-      // Save editToken (for edit access9 to local storage
+      // Save editToken (for edit access to local storage
       localStorage.setItem(
         `edit-token-${thought._id}`,
         thought.editToken
@@ -78,7 +77,7 @@ export const FormCard = () => {
           onChange={handleInputChange}
         />
         <WordCount message={message} />
-        {error && <ErrorMessage />}
+        {error && <ErrorMessage>The message must be between 1 and 140 characters.</ErrorMessage>}
       </StyledWrapper>
       <SubmitBtn>
         Send Happy Thought
