@@ -28,11 +28,13 @@ export const useAuthStore = create((set) => ({
 
   checkAuthStatus: () => {
     const accessToken = localStorage.getItem("accessToken");
+    const name = localStorage.getItem("name");
 
     if(accessToken) {
       set({
         accessToken: accessToken,
         isAuthenticated: true,
+        name: name
       });
     }
   }

@@ -5,7 +5,6 @@ import { WordCount } from "./WordCount";
 import { ErrorMessage } from "./ErrorMessage";
 import { useThoughtStore } from "../../stores/thoughtStore";
 
-
 export const FormCard = () => {
 
   const triggerUpdateThoughts = useThoughtStore((state) => state.triggerUpdateThoughts);
@@ -18,9 +17,9 @@ export const FormCard = () => {
     
     if(checkIfWithinWordLimit()) {
       setError(false);
-      postMessage(message);
+      postThought(message);
       
-      setMessage(""); //reset on submit
+      setMessage(""); //Reset on submit
     } else {
       setError(true);
     }
@@ -33,17 +32,17 @@ export const FormCard = () => {
   const checkIfWithinWordLimit = () => message.length >= 1 && message.length <= 140;
 
 
-  /*--- POST message to API ---*/
-  const postMessage = async (message) => {
+  /*--- POST thought to API ---*/
+  const postThought = async (message) => {
     const url = `https://js-project-api-wdi2.onrender.com/thoughts`;
 
     try {
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json", //tell server it’s JSON
+          "Content-Type": "application/json", 
         },
-        body: JSON.stringify({ message: message }) //convert JS object to JSON string
+        body: JSON.stringify({ message: message })
       });
 
     
@@ -58,7 +57,7 @@ export const FormCard = () => {
         `edit-token-${thought._id}`,
         thought.editToken
       );
-      triggerUpdateThoughts(); // to trigger a re-fetch of data after updating the message
+      triggerUpdateThoughts(); // To trigger a re-fetch of data after updating the message
     }
     catch(error) {
       console.error("Sending error:", error);
