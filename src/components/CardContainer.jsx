@@ -14,6 +14,7 @@ export const CardContainer = () => {
 
   const updateThoughts = useThoughtStore(state => state.updateThoughts);
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const accessToken = useAuthStore(state => state.accessToken);
   const userName = useAuthStore(state => state.name);
 
   const [thoughts, setThoughts] = useState([]);
@@ -56,7 +57,13 @@ export const CardContainer = () => {
         : `https://js-project-api-wdi2.onrender.com/thoughts`;
       
       try {
-        const response = await fetch(url);
+        const response = await fetch(
+          url, {
+            headers: {
+              Authorization: accessToken, // make sure token is sent
+              "Content-Type": "application/json",
+            },
+          });
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -70,7 +77,7 @@ export const CardContainer = () => {
     };
     fetchThoughts();
     
-  },[updateThoughts, filter, sortBy, sortingOrder])
+  },[updateThoughts, filter, sortBy, sortingOrder, accessToken])
 
   
   return(
@@ -104,6 +111,7 @@ export const CardContainer = () => {
             createdAt={thought.createdAt}
             id={thought._id}
             hearts={thought.hearts}
+            isCreator={thought.isCreator}
             likedThoughts={likedThoughts}
             setLikedThoughts={setLikedThoughts}
             >

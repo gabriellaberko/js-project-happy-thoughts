@@ -10,14 +10,14 @@ import { useThoughtStore } from "../../stores/thoughtStore";
 
 dayjs.extend(relativeTime);
 
-export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, createdAt, children }) => {
+export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, createdAt, isCreator, children }) => {
 
   const triggerUpdateThoughts = useThoughtStore((state) => state.triggerUpdateThoughts);
   const [likeCount, setLikeCount] = useState(hearts);
   const [isActive, setIsActive] = useState(hearts>=1 ? true : false);
   const [editMode, setEditMode] = useState(false);
 
-  const hasEditRights = localStorage.getItem(`edit-token-${id}`); 
+  const hasEditRights = isCreator || localStorage.getItem(`edit-token-${id}`); 
 
   // Sync with the hearts prop when it changes (when new card is posted)
   useEffect(() => {
