@@ -1,9 +1,12 @@
 import { ThemeProvider } from 'styled-components';
 import { theme } from './components/styles/Theme.styled';
 import { GlobalStyle } from './components/styles/GlobalStyles';
-import { CardContainer } from './components/CardContainer';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Home } from './pages/Home';
+import { LikedThoughts } from './pages/LikedThoughts';
 import { useAuthStore } from './stores/authStore';
 import { useEffect } from 'react';
+import { AuthenticationForm } from './components/forms/AuthenticationForm';
 
 
 export const App = () => {
@@ -15,11 +18,14 @@ export const App = () => {
   }, [checkAuthStatus]);
   
   return (
-    <>
+    <BrowserRouter>
       <ThemeProvider theme={theme}>
-      <GlobalStyle />
-        <CardContainer />
+        <GlobalStyle />
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/liked" element={<LikedThoughts />} />
+          </Routes>
       </ThemeProvider>
-    </>
+    </BrowserRouter>
   )
 }

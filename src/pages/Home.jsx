@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { FormCard } from "./cards/FormCard";
-import { MessageCard } from "./cards/MessageCard";
+import { FormCard } from "../components/cards/FormCard";
+import { MessageCard } from "../components/cards/MessageCard";
 import styled from "styled-components";
-import { Loader } from "./Loader";
+import { Loader } from "../components/Loader";
 import { useThoughtStore } from "../stores/thoughtStore";
-import { FilterSortConfig } from "./FilterSortConfig";
-import { ThoughtBubble } from "./ThoughtBubble";
+import { FilterSortConfig } from "../components/FilterSortConfig";
 import { useAuthStore } from "../stores/authStore";
+import { Navigation } from "../components/Navigation";
+import { Link } from "react-router-dom";
 
 
-export const CardContainer = () => {
+export const Home = () => {
 
   const updateThoughts = useThoughtStore(state => state.updateThoughts);
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
@@ -18,18 +19,11 @@ export const CardContainer = () => {
 
   const [thoughts, setThoughts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [likedThoughts, setLikedThoughts] = useState(() => {
-    return JSON.parse(localStorage.getItem("likedThoughts")) || [];
-  });
+
   // For sorting and filtering thoughts
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [sortingOrder, setSortingOrder] = useState("");
-
-  // Sync the likes to local storage whenever likedThoughts is changing
-  useEffect(() => {
-    localStorage.setItem("likedThoughts", JSON.stringify(likedThoughts));
-  }, [likedThoughts]);
 
 
   /*--- Fetch thoughts from API ---*/
@@ -81,14 +75,11 @@ export const CardContainer = () => {
   
   return(
     <>
-    {likedThoughts.length > 0 && (
-      <StyledDiv>
-      {/* <ThoughtBubble>
-        <p>You have ❤️ {likedThoughts.length}{" "}
-        {likedThoughts.length === 1 ? "post" : "posts"}.<br></br>Keep spreading hapiness!</p>
-      </ThoughtBubble> */}
-      </StyledDiv>
-    )}
+    <Navigation>
+      {isAuthenticated &&
+        <Link to={`/liked`}>❤️ Liked Thoughts</Link>
+      }
+    </Navigation>
     <StyledWrapper>
       <StyledCardContainer>
         {isAuthenticated ? <h1>Hi, {userName}!</h1> : <h1>Happy Thoughts</h1>}
@@ -108,10 +99,8 @@ export const CardContainer = () => {
             key={index} 
             createdAt={thought.createdAt}
             id={thought._id}
-            heartsCount={Array.isArray(thought.hearts) ? thought.hearts.length : 0}
+            hearts={thought.hearts.length}
             isCreator={thought.isCreator}
-            likedThoughts={likedThoughts}
-            setLikedThoughts={setLikedThoughts}
             >
               {thought.message}
           </MessageCard>

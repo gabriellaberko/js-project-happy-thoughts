@@ -1,4 +1,3 @@
-import React from "react";
 import { HeartIcon } from "./HeartIcon";
 import { StyledBtn } from "./Button.styled";
 

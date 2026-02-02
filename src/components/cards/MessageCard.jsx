@@ -7,16 +7,19 @@ import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { EditForm } from "./EditForm";
 import { useThoughtStore } from "../../stores/thoughtStore";
+import { useAuthStore } from "../../stores/authStore";
 
 dayjs.extend(relativeTime);
 
 export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, createdAt, isCreator, children }) => {
 
   const triggerUpdateThoughts = useThoughtStore((state) => state.triggerUpdateThoughts);
-  const [likeCount, setLikeCount] = useState(hearts);
-  const [isActive, setIsActive] = useState(hearts>=1 ? true : false);
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const [likeCount, setLikeCount] = useState(() => {
+    return typeof hearts === "number" ? hearts : 0;
+  });
+  const [isActive, setIsActive] = useState(hearts >= 1 ? true : false);
   const [editMode, setEditMode] = useState(false);
-
   const hasEditRights = isCreator || localStorage.getItem(`edit-token-${id}`); 
 
   // Sync with the hearts prop when it changes (when new card is posted)
@@ -59,10 +62,10 @@ export const MessageCard = ({ likedThoughts, setLikedThoughts, id, hearts, creat
     try {
       const response = await fetch(url, {
         method: "PATCH", 
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          hearts: hearts + 1
-        })
+        headers: {
+          "Authorization": accessToken,
+          "Content-Type": "application/json", 
+        }
       });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
