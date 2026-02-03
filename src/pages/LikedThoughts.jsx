@@ -51,7 +51,7 @@ export const LikedThoughts = () => {
   return(
     <>
     <Navigation>
-      <Link to={`/`}>Home</Link>
+      <StyledLink to={`/`}>🏠 Home</StyledLink>
     </Navigation>
     <StyledWrapper>
       <StyledCardContainer>
@@ -83,6 +83,7 @@ const StyledCardContainer = styled.div`
   align-items: center;
   gap: 24px;
   padding: 0 18px;
+  margin: 6px 18px 18px 18px;
   overflow-wrap: anywhere;
 
   @media ${(props) => props.theme.media.tablet}  {
@@ -104,3 +105,14 @@ const StyledWrapper = styled.div`
   }
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+  padding: 6px 16px 8px 16px;
+  background-color: ${props => props.theme.colors.button.like.bg};
+  border-radius: 30px;
+  &:hover {
+    transform: translateY(-1px);
+  }
+`; 

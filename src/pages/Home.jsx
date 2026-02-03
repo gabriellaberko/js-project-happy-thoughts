@@ -77,7 +77,7 @@ export const Home = () => {
     <>
     <Navigation>
       {isAuthenticated &&
-        <Link to={`/liked`}>❤️ Liked Thoughts</Link>
+        <StyledLink to={`/liked`}>💭 Liked Thoughts</StyledLink>
       }
     </Navigation>
     <StyledWrapper>
@@ -117,6 +117,7 @@ const StyledCardContainer = styled.div`
   align-items: center;
   gap: 24px;
   padding: 0 18px;
+  margin: 6px 18px 18px 18px;
   overflow-wrap: anywhere;
 
   @media ${(props) => props.theme.media.tablet}  {
@@ -131,24 +132,34 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin-top: 42px; */
 
   @media ${(props) => props.theme.media.tablet}  {
     margin-top: 0;
   }
 `;
 
-const StyledDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  font-size: 14px;
-  width: 100%;
-  color: ${(props) => props.theme.colors.main.secondaryText};
-  @media ${(props) => props.theme.media.tablet}  {
-    justify-content: flex-end;
-    text-align: end;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+  padding: 6px 16px 8px 16px;
+  background-color: ${props => props.theme.colors.button.like.bg};
+  border-radius: 30px;
+  &:hover {
+    transform: translateY(-1px);
   }
-  margin-bottom: 12px;
+
+  /* border: 1px solid ${(props => props.theme.colors.main.secondaryText)};
+  
+  color: inherit;
+  background-color: transparent;
+  padding: 6px 16px;
+  flex-shrink: 0;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 4px 4px 0px  rgba(0, 0, 0, 0.06);
+  } */
 `;
 

@@ -33,8 +33,7 @@ export const StyledSimpleBtn = styled.button`
   font-size: 12px;
   cursor: pointer;
 
-    &:hover {
-    /* transform: translateY(-1px); */
+  &:hover {
     box-shadow: 4px 4px 0px  rgba(0, 0, 0, 0.06);
   }
 `;

@@ -35,7 +35,7 @@ return(
         <StyledRangeInput
           type="range"
           id="filter-likes"
-          min="0"
+          min="1"
           max="20"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}

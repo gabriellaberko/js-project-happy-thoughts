@@ -5,29 +5,14 @@ import styled from "styled-components";
 import { ErrorMessage } from "../cards/ErrorMessage";
 import { useAuthStore } from "../../stores/authStore";
 
-export const AuthenticationForm = () => {
+export const AuthenticationForm = ({ showForm, formType, setShowForm }) => {
 
-  const [showForm, setShowForm] = useState(false);
-  const [formType, setFormType] = useState();
   const [error, setError] = useState(false);
   const [email, setEmail] = useState();
   const [name, setName] = useState();
   const [password, setPassword] = useState();
 
   const login = useAuthStore(state => state.login);
-  const logout = useAuthStore(state => state.logout);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-
-  const openSignupForm = () => {
-    setFormType("signup");
-    setShowForm(true);
-  };
-
-  const openLoginForm = () => {
-    setFormType("login");
-    setShowForm(true);
-  };
 
   const handleEmailInputChange = (e) => setEmail(e.target.value);
   const handleNameInputChange = (e) => setName(e.target.value);
@@ -102,19 +87,7 @@ export const AuthenticationForm = () => {
 
   return(
     <>
-    {isAuthenticated 
-      ?
-        <StyledBtnDiv>
-          <StyledBtn onClick={logout}>[➜ Log out</StyledBtn>
-        </StyledBtnDiv>
-      :
-        <StyledBtnDiv>
-          <StyledBtn onClick={openLoginForm}>Log in</StyledBtn>
-          <StyledBtn onClick={openSignupForm}>Sign-up</StyledBtn>
-        </StyledBtnDiv>
-      }
-    
-      {showForm &&
+    {showForm &&
       <StyledAuthWrapper>
       <StyledFormWrapper>
 
@@ -162,7 +135,7 @@ export const AuthenticationForm = () => {
         </StyledFormCard>
       </StyledFormWrapper>
       </StyledAuthWrapper>
-      }
+    }
     </>
   )
 };
