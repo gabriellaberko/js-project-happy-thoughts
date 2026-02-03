@@ -109,7 +109,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
   flex-shrink: 0;
-  padding: 6px 16px 8px 16px;
+  padding: 6px 18px 8px 18px;
   background-color: ${props => props.theme.colors.button.like.bg};
   border-radius: 30px;
   &:hover {

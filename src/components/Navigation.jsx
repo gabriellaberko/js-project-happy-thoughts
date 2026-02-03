@@ -8,16 +8,19 @@ export const Navigation = ({ children }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const logout = useAuthStore(state => state.logout);
 
-    const [showForm, setShowForm] = useState(false);
-    const [formType, setFormType] = useState();
+  const [error, setError] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [formType, setFormType] = useState();
 
   const openSignupForm = () => {
     setFormType("signup");
+    setError(false);
     setShowForm(true);
   };
 
   const openLoginForm = () => {
     setFormType("login");
+    setError(false);
     setShowForm(true);
   };
   
@@ -37,7 +40,12 @@ export const Navigation = ({ children }) => {
       }
       {children}
     </StyledNav>
-    <AuthenticationForm showForm={showForm} setShowForm={setShowForm} formType={formType} />
+      <AuthenticationForm
+        showForm={showForm}
+        setShowForm={setShowForm}
+        formType={formType}
+        error={error}
+        setError={setError} />
   </>
   );
 }
@@ -46,8 +54,6 @@ export const Navigation = ({ children }) => {
 const StyledNav = styled.nav`
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
-  /* background-color: #ebeaea5b; */
   padding: 16px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   margin-bottom: 24px;

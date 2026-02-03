@@ -5,12 +5,12 @@ import styled from "styled-components";
 import { ErrorMessage } from "../cards/ErrorMessage";
 import { useAuthStore } from "../../stores/authStore";
 
-export const AuthenticationForm = ({ showForm, formType, setShowForm }) => {
+export const AuthenticationForm = ({ showForm, formType, setShowForm, error, setError }) => {
 
-  const [error, setError] = useState(false);
   const [email, setEmail] = useState();
   const [name, setName] = useState();
   const [password, setPassword] = useState();
+  const [errorMessage, setErrorMessage] = useState("Invalid user credentials");
 
   const login = useAuthStore(state => state.login);
 
@@ -28,30 +28,38 @@ export const AuthenticationForm = ({ showForm, formType, setShowForm }) => {
   const postNewUser = async () => {
     const url = `https://js-project-api-wdi2.onrender.com/users`;
 
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", //tell server it’s JSON
-        },
-        body: JSON.stringify({ //convert JS object to JSON string
-          email: email, 
-          name: name,
-          password: password
-        }) 
-      });
-    
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      if (password.length < 8) {
+        setErrorMessage("Password must be at least 8 characters");
+        setError(true);
+        return;
       }
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", //tell server it’s JSON
+          },
+          body: JSON.stringify({ //convert JS object to JSON string
+            email: email, 
+            name: name,
+            password: password
+          }) 
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-      const newUser = await response.json();
-      login({ accessToken: newUser.accessToken, name: newUser.name });
-      setShowForm(false);
-    }
-    catch(error) {
-      console.error("Sending error:", error);
-    }
+        const newUser = await response.json();
+        login({ accessToken: newUser.accessToken, name: newUser.name });
+        setShowForm(false);
+        setError(false);
+      }
+      catch (error) {
+        console.error("Sending error:", error);
+        setErrorMessage("Could not create account");
+        setError(true);
+      }
   };
 
   /*--- Login - POST login session to API ---*/
@@ -77,6 +85,8 @@ export const AuthenticationForm = ({ showForm, formType, setShowForm }) => {
       const loggedInUser = await response.json();
       login({ accessToken: loggedInUser.accessToken, name: loggedInUser.name });
       setShowForm(false);
+      setError(false);
+
     }
     catch(error) {
       console.error("Sending error:", error);
@@ -128,9 +138,9 @@ export const AuthenticationForm = ({ showForm, formType, setShowForm }) => {
               required
               onChange={handlePasswordInputChange}
             />
-            {(formType === "signup") && <p>ⓘ Must be at least 8 characters</p>}
+            {(formType === "signup") && <StyledInfoText>ⓘ Password must be at least 8 characters</StyledInfoText>}
           </div>
-          {error && formType === "login" && <ErrorMessage>Invalid user credentials</ErrorMessage>}
+            {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
           <StyledSimpleBtn type="submit">{formType === "signup" ? "Signup" : "Log in"}</StyledSimpleBtn>
         </StyledFormCard>
       </StyledFormWrapper>
@@ -180,12 +190,7 @@ const StyledBtnDiv = styled.div`
   margin-bottom: 24px;
 `;
 
-const StyledBtn = styled.button`
-  border: none;
-  background-color: transparent;
-  color: ${props => props.theme.colors.main.secondaryText};
-  font-size: 16px;
-  &:hover{
-    text-decoration: underline;
-  }
+const StyledInfoText = styled.p`
+  font-size: 12px;
+  margin: 6px 0;
 `;

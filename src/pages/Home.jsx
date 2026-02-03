@@ -142,24 +142,11 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
   flex-shrink: 0;
-  padding: 6px 16px 8px 16px;
+  padding: 6px 18px 8px 18px;
   background-color: ${props => props.theme.colors.button.like.bg};
   border-radius: 30px;
   &:hover {
     transform: translateY(-1px);
   }
-
-  /* border: 1px solid ${(props => props.theme.colors.main.secondaryText)};
-  
-  color: inherit;
-  background-color: transparent;
-  padding: 6px 16px;
-  flex-shrink: 0;
-  text-decoration: none;
-  cursor: pointer;
-
-  &:hover {
-    box-shadow: 4px 4px 0px  rgba(0, 0, 0, 0.06);
-  } */
 `;
 
