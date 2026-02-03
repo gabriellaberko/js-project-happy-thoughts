@@ -4,12 +4,11 @@ Happy Thoughts is a fullstack web application where users can share short though
 
 The frontend is built with React and communicates with a RESTful backend API to handle authentication, data fetching, and updates in real time.
 
-🔗 **Live site:**  
-https://happysharing.netlify.app/
+# Live Site: https://happysharing.netlify.app/
 
 ---
 
-## ✨ Features
+# Features
 
 - View all thoughts in real time
 - Like thoughts (authenticated & anonymous users)
@@ -23,18 +22,18 @@ https://happysharing.netlify.app/
 
 ---
 
-## 🛠 Tech Stack
+# Tech Stack
 
-- **React**
-- **JavaScript (ES6+)**
-- **Styled Components**
-- **REST API integration**
-- **React Routing**
-- **Styled Components**
+- React
+- JavaScript (ES6+)
+- Styled Components
+- REST API integration
+- React Routing
+- Styled Components
 
 ---
 
-## 🔐 Authentication
+# Authentication
 
 - Access tokens are stored in localStorage
 - Tokens are sent in request headers to persist login state
