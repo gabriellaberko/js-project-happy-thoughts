@@ -28,6 +28,11 @@ export const Home = () => {
   const [sortBy, setSortBy] = useState("");
   const [sortingOrder, setSortingOrder] = useState("");
 
+  const clearFilterAndSorting = () => {
+    setFilter();
+    setSortBy();
+  };
+
 
   /*--- Fetch thoughts from API ---*/
 
@@ -102,12 +107,13 @@ export const Home = () => {
         {isAuthenticated ? <h1>Hi, {userName}!</h1> : <h1>Happy Thoughts</h1>}
         <Form />
         <FilterSortConfig 
-          filter={filter} 
-          setFilter={setFilter} 
-          sortBy={sortBy} 
-          setSortBy={setSortBy} 
-          sortingOrder={sortingOrder} 
-          setSortingOrder={setSortingOrder} 
+          filter={filter}
+          setFilter={setFilter}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          sortingOrder={sortingOrder}
+          setSortingOrder={setSortingOrder}
+          clearFilterAndSorting={clearFilterAndSorting}  
         />
         {loading && <Loader />}
         {fetchError && <FetchErrorMessage>{fetchErrorMessage}</FetchErrorMessage> }

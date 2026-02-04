@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const FilterSortConfig = ({ filter, setFilter, sortBy, setSortBy, sortingOrder, setSortingOrder }) => {
+export const FilterSortConfig = ({ filter, setFilter, sortBy, setSortBy, sortingOrder, setSortingOrder, clearFilterAndSorting }) => {
+
 return(
    <StyledOuterWrapper>
       <StyledInputWrapper>
@@ -40,7 +41,8 @@ return(
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
-      </StyledRangeWrapper>
+    </StyledRangeWrapper>
+    {(filter || sortBy) && <StyledBtn onClick={clearFilterAndSorting}>Clear</StyledBtn>}
     </StyledOuterWrapper>
 );
 }
@@ -109,4 +111,13 @@ const StyledSelect= styled.select`
   font-size: 12px;
 `;
 
+
+const StyledBtn= styled.button`
+  color: ${(props => props.theme.colors.main.secondaryText)};
+  border: none;
+  background-color: transparent;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+`;
 
