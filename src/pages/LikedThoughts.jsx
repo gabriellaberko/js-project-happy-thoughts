@@ -13,7 +13,9 @@ export const LikedThoughts = () => {
   const updateThoughts = useThoughtStore(state => state.updateThoughts);
   const accessToken = useAuthStore(state => state.accessToken);
   const [likedThoughts, setLikedThoughts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(false);
+  const [fetchErrorMessage, setFetchErrorMessage] = useState("");
 
 
   /*--- Fetch thoughts from API ---*/
@@ -23,7 +25,9 @@ export const LikedThoughts = () => {
 
     const fetchLikedThoughts = async () => {
       const url = `https://js-project-api-wdi2.onrender.com/thoughts/liked`
-      
+
+      setLoading(true);
+
       try {
         const response = await fetch(
           url, {
@@ -35,12 +39,24 @@ export const LikedThoughts = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
         const data = await response.json();
-        setLoading(false);
         setLikedThoughts(data);
+        setLoading(false);
+
+
+        if (data.length === 0) {
+          setFetchErrorMessage("There is currently no data matching the filters.");
+          setFetchError(true);
+        } else {
+          setFetchError(false);
+        }
       }   
       catch (error) {
         console.error("Fetch error:", error);
+        setLoading(false);
+        setFetchErrorMessage("An error occurred during the fetching of the data. Try again later!");
+        setFetchError(true);
       }
     };
     fetchLikedThoughts();
@@ -59,6 +75,7 @@ export const LikedThoughts = () => {
         <p>You have ❤️ {likedThoughts.length}{" "}
         {likedThoughts.length === 1 ? "post" : "posts"}.<br></br>Keep spreading hapiness!</p>
         {loading && <Loader />}
+        {fetchError && <FetchErrorMessage>{fetchErrorMessage}</FetchErrorMessage> }
         {likedThoughts
           .map((thought, index) => 
           (<MessageCard 

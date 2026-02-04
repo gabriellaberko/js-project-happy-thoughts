@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { StyledInput, StyledWrapper } from "./Card.styled";
-import { WordCount } from "./WordCount";
-import { ErrorMessage } from "./ErrorMessage";
+import { StyledInput, StyledWrapper } from "../cards/Card.styled";
+import { WordCount } from "../cards/WordCount";
+import { FormErrorMessage } from "./FormErrorMessage";
 import { useThoughtStore } from "../../stores/thoughtStore";
 import styled from "styled-components";
 
@@ -64,7 +64,7 @@ export const EditForm = ({ id, setEditMode }) => {
           onChange={handleInputChange}
         />
         <WordCount message={message} />
-        {error && <ErrorMessage />}
+        {error && <FormErrorMessage />}
       </StyledWrapper>
       <StyledEditButtonsWrapper>
         <StyledEditButton type="submit" onClick={handleSubmit}>Update</StyledEditButton>

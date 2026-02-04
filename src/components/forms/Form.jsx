@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { SubmitBtn } from "../buttons/SubmitBtn";
-import { StyledFormCard, StyledInput, StyledWrapper } from "./Card.styled";
-import { WordCount } from "./WordCount";
-import { ErrorMessage } from "./ErrorMessage";
+import { StyledFormCard, StyledInput, StyledWrapper } from "../cards/Card.styled";
+import { WordCount } from "../cards/WordCount";
+import { FormErrorMessage } from "./FormErrorMessage";
 import { useThoughtStore } from "../../stores/thoughtStore";
 import { useAuthStore } from "../../stores/authStore";
 
-export const FormCard = () => {
+export const Form = () => {
 
   const triggerUpdateThoughts = useThoughtStore((state) => state.triggerUpdateThoughts);
   const accessToken = useAuthStore((state) => state.accessToken);
@@ -79,7 +79,7 @@ export const FormCard = () => {
           onChange={handleInputChange}
         />
         <WordCount message={message} />
-        {error && <ErrorMessage>The message must be between 1 and 140 characters.</ErrorMessage>}
+        {error && <FormErrorMessage>The message must be between 1 and 140 characters.</FormErrorMessage>}
       </StyledWrapper>
       <SubmitBtn>
         Send Happy Thought

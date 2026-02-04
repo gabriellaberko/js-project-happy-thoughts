@@ -5,7 +5,7 @@ import { StyledSimpleBtn } from "../buttons/Button.styled";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { EditForm } from "./EditForm";
+import { EditForm } from "../forms/EditForm";
 import { useThoughtStore } from "../../stores/thoughtStore";
 import { useAuthStore } from "../../stores/authStore";
 

@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
-export const ErrorMessage = ({ children }) => {
+export const FormErrorMessage = ({ children }) => {
   
   return (
     <StyledErrorMessage>

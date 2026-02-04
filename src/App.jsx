@@ -6,7 +6,6 @@ import { Home } from './pages/Home';
 import { LikedThoughts } from './pages/LikedThoughts';
 import { useAuthStore } from './stores/authStore';
 import { useEffect } from 'react';
-import { AuthenticationForm } from './components/forms/AuthenticationForm';
 
 
 export const App = () => {

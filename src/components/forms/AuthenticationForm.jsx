@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StyledFormCard } from "../cards/Card.styled";
 import { StyledSimpleBtn } from "../buttons/Button.styled";
 import styled from "styled-components";
-import { ErrorMessage } from "../cards/ErrorMessage";
+import { FormErrorMessage } from "./FormErrorMessage";
 import { useAuthStore } from "../../stores/authStore";
 
 export const AuthenticationForm = ({ showForm, formType, setShowForm, error, setError }) => {
@@ -140,7 +140,7 @@ export const AuthenticationForm = ({ showForm, formType, setShowForm, error, set
             />
             {(formType === "signup") && <StyledInfoText>ⓘ Password must be at least 8 characters</StyledInfoText>}
           </div>
-            {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            {error && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
           <StyledSimpleBtn type="submit">{formType === "signup" ? "Signup" : "Log in"}</StyledSimpleBtn>
         </StyledFormCard>
       </StyledFormWrapper>

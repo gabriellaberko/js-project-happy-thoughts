@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FormCard } from "../components/cards/FormCard";
+import { Form } from "../components/forms/Form";
 import { MessageCard } from "../components/cards/MessageCard";
 import styled from "styled-components";
 import { Loader } from "../components/Loader";
@@ -8,6 +8,7 @@ import { FilterSortConfig } from "../components/FilterSortConfig";
 import { useAuthStore } from "../stores/authStore";
 import { Navigation } from "../components/Navigation";
 import { Link } from "react-router-dom";
+import { FetchErrorMessage } from "../components/FetchErrorMessage";
 
 
 export const Home = () => {
@@ -18,7 +19,9 @@ export const Home = () => {
   const userName = useAuthStore(state => state.name);
 
   const [thoughts, setThoughts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(false);
+  const [fetchErrorMessage, setFetchErrorMessage] = useState("");
 
   // For sorting and filtering thoughts
   const [filter, setFilter] = useState("");
@@ -49,6 +52,8 @@ export const Home = () => {
         ? `https://js-project-api-wdi2.onrender.com/thoughts?${query}`
         : `https://js-project-api-wdi2.onrender.com/thoughts`;
       
+      setLoading(true);
+
       try {
         const response = await fetch(
           url, {
@@ -56,16 +61,28 @@ export const Home = () => {
               Authorization: accessToken, // make sure token is sent
               "Content-Type": "application/json",
             },
-          });
+        });
+        
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
         const data = await response.json();
-        setLoading(false);
         setThoughts(data);
+        setLoading(false);
+
+        if (data.length === 0) {
+          setFetchErrorMessage("There is currently no data matching the filters.");
+          setFetchError(true);
+        } else {
+          setFetchError(false);
+        }
       }   
       catch (error) {
         console.error("Fetch error:", error);
+        setLoading(false);
+        setFetchErrorMessage("An error occurred during the fetching of the data. Try again later!");
+        setFetchError(true);
       }
     };
     fetchThoughts();
@@ -83,7 +100,7 @@ export const Home = () => {
     <StyledWrapper>
       <StyledCardContainer>
         {isAuthenticated ? <h1>Hi, {userName}!</h1> : <h1>Happy Thoughts</h1>}
-        <FormCard />
+        <Form />
         <FilterSortConfig 
           filter={filter} 
           setFilter={setFilter} 
@@ -93,6 +110,7 @@ export const Home = () => {
           setSortingOrder={setSortingOrder} 
         />
         {loading && <Loader />}
+        {fetchError && <FetchErrorMessage>{fetchErrorMessage}</FetchErrorMessage> }
         {thoughts
           .map((thought, index) => 
           (<MessageCard 
