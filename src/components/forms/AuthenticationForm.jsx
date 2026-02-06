@@ -26,7 +26,7 @@ export const AuthenticationForm = ({ showForm, formType, setShowForm, error, set
 
   /*--- Signup - POST new user to API ---*/
   const postNewUser = async () => {
-    const url = `https://js-project-api-wdi2.onrender.com/users`;
+    const url = `https://js-project-api-wdi2.onrender.com/users/signup`;
 
       if (password.length < 8) {
         setErrorMessage("Password must be at least 8 characters");
@@ -64,7 +64,7 @@ export const AuthenticationForm = ({ showForm, formType, setShowForm, error, set
 
   /*--- Login - POST login session to API ---*/
   const postLogin = async () => {
-    const url = `https://js-project-api-wdi2.onrender.com/sessions`;
+    const url = `https://js-project-api-wdi2.onrender.com/users/login`;
 
     try {
       const response = await fetch(url, {
